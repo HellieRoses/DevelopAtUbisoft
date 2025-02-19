@@ -12,11 +12,14 @@ Game::Game()
 
 void Game::init(const std::string _windowName) {
 	m_window.setTitle(_windowName);
-	if (!m_tileMapTexture.loadFromFile("assets/tilemap.png")) {
+	if (!m_tileMapTexture.loadFromFile("assets/sprites/tilemap.png")) {
 		std::cout << "error on load" << std::endl;
 	}
-	if (!m_thiefTexture.loadFromFile("assets/thief.png")) {
+	if (!m_thiefTexture.loadFromFile("assets/sprites/thief.png")) {
 		std::cout << "error on load" << std::endl;
+	}
+	if (!m_gameFont.loadFromFile("assets/fonts/static/SpaceGrotesk-Bold.ttf")) {
+		std::cout << "error on load font" << std::endl;
 	}
 	//tileMap
 	m_tileMap = std::make_unique<TileMap>();
@@ -24,7 +27,7 @@ void Game::init(const std::string _windowName) {
 
 	
 	createThief();
-
+	initText();
 
 }
 
@@ -67,6 +70,7 @@ sf::Texture& Game::getThiefTexture()
 
 void Game :: draw() {
 	m_tileMap->draw(m_window);
+	drawUIElements();
 	drawGameObjects();
 	m_window.display();
 }
@@ -75,10 +79,20 @@ void Game::update(float _deltaTime) {
 	//parcourt liste ennemis + mise à jour
 	//delta time 
 
-	visit<Thief>([this](Thief& _thief) {
-		isThiefOut(_thief);
-		return true;
-	});
+	updateUIElements();
+
+	m_gameObjects.erase(
+		std::remove_if(
+			m_gameObjects.begin(), m_gameObjects.end(),
+			[this](const std::unique_ptr<GameObject>& _go) {
+				if (const auto* t = dynamic_cast<Thief*>(_go.get()))
+					return isThiefOut(*t);
+				return false; 
+			}),
+		m_gameObjects.end()
+	);
+
+
 	if (m_nbCurrentThief <= m_nbThiefsMax && !hasThiefInTile(TileMap::TILE_START_THIEF))
 	{
 		createThief();
@@ -117,7 +131,19 @@ void Game::updateGameObjects(float _deltaTime)
 	}
 }
 
-void Game::isThiefOut(const Thief& _thief)
+void Game::drawUIElements()
+{
+	m_window.draw(m_playerMoneyText);
+	m_window.draw(m_moneyOutText);
+}
+
+void Game::updateUIElements()
+{
+	setPlayerMoneyText();
+	setMoneyOutText();
+}
+
+bool Game::isThiefOut(const Thief& _thief)
 {
 	if (_thief.isDead() || _thief.getTilePos() == TileMap::TILE_END_THIEF)
 	{
@@ -130,8 +156,10 @@ void Game::isThiefOut(const Thief& _thief)
 		else
 		{
 			m_player.addMoney(moneyOut);
-		}		
+		}	
+		return true;
 	}
+	return false;
 }
 
 void Game::shotThief(sf::Vector2i _mousePos)
@@ -182,4 +210,28 @@ bool Game::hasThiefInTile(TileCoord _tileCoord)
 		return true;
 		});
 	return result;
+}
+
+void Game::setPlayerMoneyText()
+{
+	m_playerMoneyText.setString("Money player: " + std::to_string(m_player.getMoney()) + "$");
+}
+
+void Game::setMoneyOutText()
+{
+	m_moneyOutText.setString("Money out :" + std::to_string(m_moneyOut) + "$");
+}
+
+void Game::initText()
+{
+	m_playerMoneyText.setFont(m_gameFont);
+	m_playerMoneyText.setFillColor(sf::Color::Green);
+	//m_playerMoneyText.setStyle(sf::Text::Bold);
+	m_playerMoneyText.setCharacterSize(14);
+	m_playerMoneyText.setPosition(0, 0);
+	m_moneyOutText.setFont(m_gameFont);
+	m_moneyOutText.setFillColor(sf::Color::Red);
+	//m_moneyOutText.setStyle(sf::Text::Bold);
+	m_moneyOutText.setCharacterSize(14);
+	m_moneyOutText.setPosition(0, 14);
 }

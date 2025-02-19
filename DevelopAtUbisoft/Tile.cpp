@@ -6,6 +6,8 @@ Tile::Tile()
 	, m_walkable(false)
 	, m_tile()
 {
+	m_xSize = 0;
+	m_ySize = 0;
 }
 Tile::Tile(const std::string _name, const bool _walkable, const sf::Vector2i _position, const sf::Vector2i _size)
 	: m_name(_name)

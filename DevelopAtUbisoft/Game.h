@@ -22,7 +22,9 @@ class Game {
 		void onMouseClicked(sf::Event _event);
 		void drawGameObjects();
 		void updateGameObjects(float _deltaTime);
-		void isThiefOut(const Thief& _thief);
+		void drawUIElements();
+		void updateUIElements();
+		bool isThiefOut(const Thief& _thief);
 		void shotThief(sf::Vector2i _mousePos);
 		bool playerLoose() const;
 		template<typename T>
@@ -45,4 +47,14 @@ class Game {
 		uint m_nbCurrentThief = 0;
 		Player m_player;
 		float m_moneyOut = 0.f;
+
+		sf::Font m_gameFont;
+
+		sf::Text m_playerMoneyText;
+		void setPlayerMoneyText();
+
+		sf::Text m_moneyOutText;
+		void setMoneyOutText();
+		void initText();
+
 };

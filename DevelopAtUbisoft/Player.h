@@ -1,4 +1,4 @@
-
+#include <SFML/Graphics/Text.hpp>
 class Player
 {
 	public :
