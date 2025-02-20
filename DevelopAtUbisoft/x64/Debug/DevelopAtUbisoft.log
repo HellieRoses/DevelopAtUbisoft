@@ -1,23 +1,2 @@
 ﻿  Game.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3597,56): warning C4244: 'argument' : conversion de '_Ty' en 'const float', perte possible de données
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3597,56): warning C4244:         with
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3597,56): warning C4244:         [
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3597,56): warning C4244:             _Ty=double
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3597,56): warning C4244:         ]
-  (compiler le fichier source 'Game.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3597,56):
-      le contexte d’instanciation du modèle (le plus ancien) est
-          C:\Users\depinfo\Documents\dev\DevelopAtUbisoft\DevelopAtUbisoft\Game.cpp(192,31):
-          voir la référence à l'instanciation de la fonction modèle 'std::unique_ptr<Thief,std::default_delete<Thief>> std::make_unique<Thief,double,const T&,const T&,0>(double &&,const T &,const T &)' en cours de compilation
-          with
-          [
-              T=unsigned int
-          ]
-  
-  Thief.cpp
-  Tile.cpp
-C:\Users\depinfo\Documents\dev\DevelopAtUbisoft\DevelopAtUbisoft\Tile.cpp(16,19): warning C4244: '=' : conversion de 'float' en 'int', perte possible de données
-C:\Users\depinfo\Documents\dev\DevelopAtUbisoft\DevelopAtUbisoft\Tile.cpp(17,19): warning C4244: '=' : conversion de 'float' en 'int', perte possible de données
-  main.cpp
-  Génération de code en cours...
   DevelopAtUbisoft.vcxproj -> C:\Users\depinfo\Documents\dev\DevelopAtUbisoft\x64\Debug\DevelopAtUbisoft.exe

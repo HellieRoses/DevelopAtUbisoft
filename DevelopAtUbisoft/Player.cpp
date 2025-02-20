@@ -5,8 +5,8 @@
 #include <math.h>
 
 Player::Player()
-	: m_money(200.f)
 {
+	reset();
 }
 
 void Player::removeMoney(float _stolenMoney)
@@ -17,6 +17,11 @@ void Player::removeMoney(float _stolenMoney)
 void Player::addMoney(float _moneyToAdd)
 {
 	m_money += _moneyToAdd;
+}
+
+void Player::reset()
+{
+	m_money = 200.f;
 }
 
 

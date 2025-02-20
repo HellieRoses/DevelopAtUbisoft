@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 Game::Game() 
-	: m_window(sf::VideoMode(1280, 720), "")
+	: m_window(sf::VideoMode(1600, 900), "")
 {
 	//m_windowName = _windowName; 
 	m_window.setFramerateLimit(60);
@@ -22,14 +22,11 @@ void Game::init(const std::string _windowName) {
 		std::cout << "error on load font" << std::endl;
 	}
 	//tileMap
-	m_tileMap = std::make_unique<TileMap>();
-	m_tileMap->loadTiles();
-
-	
-	createThief();
 	initText();
-
+	m_prepText.setString("TITLE : Click to enter game");
 }
+
+
 
 Game& Game::get() {
 	static Game game;
@@ -48,6 +45,13 @@ void Game::run() {
 			}else if (event.type == sf::Event::MouseButtonPressed)
 			{
 				onMouseClicked(event);
+			}
+			else if (event.type == sf::Event::KeyReleased)
+			{
+				if (event.key.code == sf::Keyboard::P)
+				{
+					onPausePressed();
+				}
 			}
 			
 				
@@ -68,17 +72,116 @@ sf::Texture& Game::getThiefTexture()
 	return m_thiefTexture;
 }
 
+void Game::onPausePressed()
+{
+	if (m_currentState == GameState::PAUSE) {
+		changeState(GameState::GAME);
+	}
+	else if (m_currentState == GameState::GAME)
+	{
+		changeState(GameState::PAUSE);
+	}
+}
+
+void Game::changeState(GameState _newState)
+{
+	if (m_currentState == _newState)
+		return;
+	//on exit current state
+	switch (m_currentState)
+	{
+	case Game::GameState::TITLESCREEN:
+		break;
+	case Game::GameState::PREPARATION:
+		initLevel();
+		break;
+	case Game::GameState::GAME:
+		break;
+	case Game::GameState::PAUSE:
+		break;
+	default:
+		break;
+	}
+	m_currentState = _newState;
+	//on enter current state
+	switch (m_currentState)
+	{
+	case Game::GameState::TITLESCREEN:
+
+		resetGame();
+		break;
+	case Game::GameState::PREPARATION:
+		m_prepText.setString("PREPARATION : Click to enter game");
+		
+		break;
+	case Game::GameState::GAME:
+		break;
+	case Game::GameState::PAUSE:
+		m_prepText.setString("PAUSE : Click to enter game");
+		break;
+	default:
+		break;
+	}
+}
+
+void Game::initLevel()
+{
+	m_tileMap = std::make_unique<TileMap>();
+	m_tileMap->loadTiles();
+	m_nbCurrentThief = 0;
+	createThief();
+}
+
+void Game::resetGame()
+{
+	m_player.reset();
+	m_moneyOut = 0.f;
+}
+
 void Game :: draw() {
-	m_tileMap->draw(m_window);
-	drawUIElements();
-	drawGameObjects();
 	m_window.display();
+}
+
+void Game::drawGame()
+{
+	m_tileMap->draw(m_window);
+	drawGameObjects();
+	drawUIElements();
+}
+
+void Game::drawMainText()
+{
+	m_window.draw(m_prepText);
 }
 
 void Game::update(float _deltaTime) {
 	//parcourt liste ennemis + mise à jour
 	//delta time 
 
+	m_window.clear(sf::Color::Black);
+	switch (m_currentState)
+	{
+	case Game::GameState::TITLESCREEN:
+		drawMainText();
+		break;
+	case Game::GameState::PREPARATION:
+		drawMainText();
+		break;
+	case Game::GameState::GAME:
+		updateGame(_deltaTime);
+		drawGame();
+		break;
+	case Game::GameState::PAUSE:
+		drawMainText();
+		break;
+	default:
+		break;
+	}
+	
+}
+
+void Game::updateGame(float _deltaTime)
+{
 	updateUIElements();
 
 	m_gameObjects.erase(
@@ -87,7 +190,7 @@ void Game::update(float _deltaTime) {
 			[this](const std::unique_ptr<GameObject>& _go) {
 				if (const auto* t = dynamic_cast<Thief*>(_go.get()))
 					return isThiefOut(*t);
-				return false; 
+				return false;
 			}),
 		m_gameObjects.end()
 	);
@@ -98,18 +201,46 @@ void Game::update(float _deltaTime) {
 		createThief();
 	}
 	
+
 	updateGameObjects(_deltaTime);
+
+
 	if (playerLoose()) {
 		std::cout << "Game over" << std::endl;
+		changeState(GameState::TITLESCREEN);
+	}else if (m_gameObjects.empty() && m_nbCurrentThief > m_nbThiefsMax)
+	{
+		changeState(GameState::PREPARATION);
 	}
+
 }
 
 void Game::onMouseClicked(sf::Event _event)
 {
 	if (_event.mouseButton.button == sf::Mouse::Left)
 	{
-		sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
-		shotThief(localPosition);
+		switch (m_currentState)
+		{
+		case Game::GameState::TITLESCREEN:
+			changeState(GameState::PREPARATION);
+			break;
+		case Game::GameState::PREPARATION:
+			changeState(GameState::GAME);
+			break;
+		case Game::GameState::GAME:
+			{
+				sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
+				shotThief(localPosition);
+			}
+			break;
+		case Game::GameState::PAUSE:
+			changeState(GameState::GAME);
+			break;
+		default:
+			break;
+		}
+
+		
 	}
 }
 
@@ -189,7 +320,9 @@ bool Game::playerLoose() const
 
 void Game::createThief()
 {
-	m_gameObjects.push_back(std::make_unique<Thief>(TileMap::TILE_SIZE*1.5, TileMap::TILE_START_THIEF.x, TileMap::TILE_START_THIEF.y));
+	m_gameObjects.push_back(std::make_unique<Thief>(
+		TileMap::TILE_SIZE*1.5f, TileMap::TILE_START_THIEF.x, TileMap::TILE_START_THIEF.y)
+	);
 	m_nbCurrentThief++;
 }
 
@@ -225,7 +358,7 @@ void Game::setMoneyOutText()
 void Game::initText()
 {
 	m_playerMoneyText.setFont(m_gameFont);
-	m_playerMoneyText.setFillColor(sf::Color::Green);
+	m_playerMoneyText.setFillColor(sf::Color::Blue);
 	//m_playerMoneyText.setStyle(sf::Text::Bold);
 	m_playerMoneyText.setCharacterSize(14);
 	m_playerMoneyText.setPosition(0, 0);
@@ -234,4 +367,10 @@ void Game::initText()
 	//m_moneyOutText.setStyle(sf::Text::Bold);
 	m_moneyOutText.setCharacterSize(14);
 	m_moneyOutText.setPosition(0, 14);
+
+	m_prepText.setFont(m_gameFont);
+	m_prepText.setFillColor(sf::Color::Blue);
+	//m_playerMoneyText.setStyle(sf::Text::Bold);
+	m_prepText.setCharacterSize(36);
+	m_prepText.setPosition(0, 450);
 }
