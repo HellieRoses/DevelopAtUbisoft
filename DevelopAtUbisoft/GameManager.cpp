@@ -1,125 +1,17 @@
 #include "GameManager.h"
-#include "MathUtils.h"
+#include "TileMap.h"
 #include "Game.h"
-
-void GameManager::onPausePressed()
+#include "MathUtils.h"
+GameManager::GameManager(Game* _game)
+	: m_game(_game)
+	, m_player()
 {
-	if (m_currentState == GameState::PAUSE) {
-		changeState(GameState::GAME);
-	}
-	else if (m_currentState == GameState::GAME)
-	{
-		changeState(GameState::PAUSE);
-	}
-}
-
-void GameManager::changeState(GameState _newState)
-{
-	if (m_currentState == _newState)
-		return;
-	//on exit current state
-	switch (m_currentState)
-	{
-	case GameManager::GameState::TITLESCREEN:
-		break;
-	case GameManager::GameState::PREPARATION:
-		initLevel();
-		break;
-	case GameManager::GameState::GAME:
-		break;
-	case GameManager::GameState::PAUSE:
-		break;
-	default:
-		break;
-	}
-	m_currentState = _newState;
-	//on enter current state
-	switch (m_currentState)
-	{
-	case GameManager::GameState::TITLESCREEN:
-
-		resetGame();
-		break;
-	case GameManager::GameState::PREPARATION:
-		m_prepText.setString("PREPARATION : Click to enter game");
-
-		break;
-	case GameManager::GameState::GAME:
-		break;
-	case GameManager::GameState::PAUSE:
-		m_prepText.setString("PAUSE : Click to enter game");
-		break;
-	default:
-		break;
-	}
-}
-
-void GameManager::initLevel()
-{
+	m_nbThiefsMax = 5;
 	m_nbCurrentThief = 0;
-	createThief();
-}
-
-void GameManager::resetGame()
-{
-	m_player.reset();
 	m_moneyOut = 0.f;
 }
 
-void GameManager::draw() {
-	m_game->m_window.display();
-}
-
-void GameManager::init()
-{
-	initText();
-	m_prepText.setString("TITLE : Click to enter game");
-}
-
-void GameManager::drawGame()
-{
-	m_game->m_tileMap->draw(m_game->m_window);
-	drawGameObjects();
-	drawUIElements();
-}
-
-void GameManager::drawMainText()
-{
-	m_game->m_window.draw(m_prepText);
-}
-
-GameManager::GameManager(Game* _game)
-	: m_game(_game)
-{
-}
-
-void GameManager::update(float _deltaTime) {
-	//parcourt liste ennemis + mise à jour
-	//delta time 
-
-	m_game->m_window.clear(sf::Color::Black);
-	switch (m_currentState)
-	{
-	case GameManager::GameState::TITLESCREEN:
-		drawMainText();
-		break;
-	case GameManager::GameState::PREPARATION:
-		drawMainText();
-		break;
-	case GameManager::GameState::GAME:
-		updateGame(_deltaTime);
-		drawGame();
-		break;
-	case GameManager::GameState::PAUSE:
-		drawMainText();
-		break;
-	default:
-		break;
-	}
-
-}
-
-void GameManager::updateGame(float _deltaTime)
+void GameManager::updateState(float _deltaTime)
 {
 	updateUIElements();
 
@@ -143,44 +35,22 @@ void GameManager::updateGame(float _deltaTime)
 
 	updateGameObjects(_deltaTime);
 
-
-	if (playerLoose()) {
-		changeState(GameState::TITLESCREEN);
-	}
-	else if (m_gameObjects.empty() && m_nbCurrentThief > m_nbThiefsMax)
-	{
-		changeState(GameState::PREPARATION);
-	}
-
+	drawState();
 }
 
-void GameManager::onMouseClicked(sf::Event _event)
+void GameManager::drawState()
 {
-	if (_event.mouseButton.button == sf::Mouse::Left)
-	{
-		switch (m_currentState)
-		{
-		case GameManager::GameState::TITLESCREEN:
-			changeState(GameState::PREPARATION);
-			break;
-		case GameManager::GameState::PREPARATION:
-			changeState(GameState::GAME);
-			break;
-		case GameManager::GameState::GAME:
-		{
-			sf::Vector2i localPosition = sf::Mouse::getPosition(m_game->m_window);
-			shotThief(localPosition);
-		}
-		break;
-		case GameManager::GameState::PAUSE:
-			changeState(GameState::GAME);
-			break;
-		default:
-			break;
-		}
+	m_game->m_tileMap->draw(m_game->m_window);
+	drawGameObjects();
+	drawUIElements();
+}
 
+void GameManager::onEnterState()
+{
+}
 
-	}
+void GameManager::onExitState()
+{
 }
 
 void GameManager::drawGameObjects()
@@ -206,6 +76,7 @@ void GameManager::drawUIElements()
 	m_game->m_window.draw(m_playerMoneyText);
 	m_game->m_window.draw(m_moneyOutText);
 }
+
 
 void GameManager::updateUIElements()
 {
@@ -252,9 +123,42 @@ void GameManager::shotThief(sf::Vector2i _mousePos)
 
 }
 
+void GameManager::initLevel()
+{
+	m_nbCurrentThief = 0;
+	createThief();
+}
+
+void GameManager::resetGame()
+{
+	m_player.reset();
+	m_moneyOut = 0.f;
+	m_gameObjects.clear();
+}
+
+void GameManager::initText()
+{
+	m_playerMoneyText.setFont(m_game->getFont());
+	m_playerMoneyText.setFillColor(sf::Color::Blue);
+	//m_playerMoneyText.setStyle(sf::Text::Bold);
+	m_playerMoneyText.setCharacterSize(14);
+	m_playerMoneyText.setPosition(0, 0);
+	m_moneyOutText.setFont(m_game->getFont());
+	m_moneyOutText.setFillColor(sf::Color::Red);
+	//m_moneyOutText.setStyle(sf::Text::Bold);
+	m_moneyOutText.setCharacterSize(14);
+	m_moneyOutText.setPosition(0, 14);
+
+}
+
 bool GameManager::playerLoose() const
 {
-	return m_moneyOut >= 200.f; //TODO
+	return m_moneyOut >= 100.f;
+}
+
+bool GameManager::hasRoundFinished() const
+{
+	return m_gameObjects.empty() && m_nbCurrentThief > m_nbThiefsMax;
 }
 
 void GameManager::createThief()
@@ -289,27 +193,8 @@ void GameManager::setPlayerMoneyText()
 	m_playerMoneyText.setString("Money player: " + std::to_string(m_player.getMoney()) + "$");
 }
 
+
 void GameManager::setMoneyOutText()
 {
 	m_moneyOutText.setString("Money out :" + std::to_string(m_moneyOut) + "$");
-}
-
-void GameManager::initText()
-{
-	m_playerMoneyText.setFont(m_game->getFont());
-	m_playerMoneyText.setFillColor(sf::Color::Blue);
-	//m_playerMoneyText.setStyle(sf::Text::Bold);
-	m_playerMoneyText.setCharacterSize(14);
-	m_playerMoneyText.setPosition(0, 0);
-	m_moneyOutText.setFont(m_game->getFont());
-	m_moneyOutText.setFillColor(sf::Color::Red);
-	//m_moneyOutText.setStyle(sf::Text::Bold);
-	m_moneyOutText.setCharacterSize(14);
-	m_moneyOutText.setPosition(0, 14);
-
-	m_prepText.setFont(m_game->getFont());
-	m_prepText.setFillColor(sf::Color::Blue);
-	//m_playerMoneyText.setStyle(sf::Text::Bold);
-	m_prepText.setCharacterSize(36);
-	m_prepText.setPosition(0, 450);
 }

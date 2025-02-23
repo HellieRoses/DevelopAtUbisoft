@@ -2,7 +2,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "TileMap.h"
-#include "GameManager.h"
+#include "MainManager.h"
 #include "core.h"
 class Game {
 	public:
@@ -25,5 +25,5 @@ class Game {
 		void update(float _deltaTime);
 		void draw();
 
-		GameManager m_gameManager;
+		MainManager m_gameManager;
 };

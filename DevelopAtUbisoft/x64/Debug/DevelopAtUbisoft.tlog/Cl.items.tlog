@@ -1,9 +1,14 @@
 C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\Game.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\Game.obj
 C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\GameManager.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\GameManager.obj
+C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\MainManager.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\MainManager.obj
 C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\GameObject.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\GameObject.obj
+C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\GameStateManager.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\GameStateManager.obj
 C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\main.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\main.obj
 C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\MathUtils.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\MathUtils.obj
+C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\PauseManager.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\PauseManager.obj
 C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\Player.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\Player.obj
+C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\PreparationManager.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\PreparationManager.obj
 C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\Thief.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\Thief.obj
 C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\Tile.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\Tile.obj
 C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\TileMap.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\TileMap.obj
+C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\TitleScreenManager.cpp;C:\Users\maebo\Documents\Ubisoft\DevelopAtUbisoft\DevelopAtUbisoft\x64\Debug\TitleScreenManager.obj

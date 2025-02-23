@@ -141,24 +141,34 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="MainManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="PauseManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PreparationManager.cpp" />
     <ClCompile Include="Thief.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TitleScreenManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="MainManager.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="PauseManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PreparationManager.h" />
     <ClInclude Include="Thief.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="TitleScreenManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
