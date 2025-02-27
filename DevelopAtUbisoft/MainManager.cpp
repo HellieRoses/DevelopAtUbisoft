@@ -4,10 +4,10 @@
 MainManager::MainManager(Game* _game)
 	: m_game(_game)
 {
-	m_titleScreenManager = std::make_unique < TitleScreenManager>(m_game);
-	m_preparationManager = std::make_unique < PreparationManager>(m_game);
-	m_pauseManager = std::make_unique < PauseManager>(m_game);
-	m_gameManager = std::make_unique < GameManager>(m_game);
+	m_titleScreenManager = std::make_unique< TitleScreenManager>(m_game);
+	m_preparationManager = std::make_unique< PreparationManager>(m_game);
+	m_pauseManager = std::make_unique<PauseManager>(m_game);
+	m_gameManager = std::make_unique<GameManager>(m_game);
 	m_currentStateManager = m_titleScreenManager.get();
 }
 
@@ -43,7 +43,8 @@ void MainManager::changeState(GameStateManager* _newState)
 }
 
 void MainManager::draw() {
-	m_game->m_window.display();
+	m_game->getGameWindow().display();
+	//TODO draw state here
 }
 
 void MainManager::init()
@@ -59,7 +60,7 @@ void MainManager::update(float _deltaTime) {
 	//parcourt liste ennemis + mise à jour
 	//delta time 
 
-	m_game->m_window.clear(sf::Color::Black);
+	m_game->getGameWindow().clear(sf::Color::Black); //TODO place in draw
 	m_currentStateManager->updateState(_deltaTime);
 
 	if (m_currentStateManager == m_gameManager.get())
@@ -92,7 +93,7 @@ void MainManager::onMouseClicked(sf::Event _event)
 		}
 		else
 		{
-			sf::Vector2i localPosition = sf::Mouse::getPosition(m_game->m_window);
+			sf::Vector2i localPosition = sf::Mouse::getPosition(m_game->getGameWindow());
 			m_gameManager->shotThief(localPosition);
 		}
 

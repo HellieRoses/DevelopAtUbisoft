@@ -19,18 +19,15 @@ class MainManager
 	private:
 		Game* m_game;
 
-		std::unique_ptr <TitleScreenManager> m_titleScreenManager;
-		std::unique_ptr <PreparationManager> m_preparationManager;
-		std::unique_ptr <PauseManager> m_pauseManager;
-		std::unique_ptr <GameManager> m_gameManager;
+		std::unique_ptr<TitleScreenManager> m_titleScreenManager;
+		std::unique_ptr<PreparationManager> m_preparationManager;
+		std::unique_ptr<PauseManager> m_pauseManager;
+		std::unique_ptr<GameManager> m_gameManager;
 
 		GameStateManager* m_currentStateManager;
 			
 		void changeState(GameStateManager* _newState);
 		
 		
-		
-		
-
 };
 

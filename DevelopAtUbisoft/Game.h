@@ -13,11 +13,36 @@ class Game {
 		sf::Texture& getTexture();
 		sf::Texture& getThiefTexture();
 		sf::Font& getFont();
+		sf::RenderWindow& getGameWindow();
+		TileMap* getTileMap();
+		template<typename T>
+		void visit(std::function<bool(T&)> _visitor) {
+			for (const auto& gameObject : m_gameObjects)
+			{
+				if (Thief* thief = dynamic_cast<Thief*>(gameObject.get()))
+					if (!_visitor(*thief))
+						break;
+			}
+		};
+		template<typename T, typename... Args>
+		void addGameObject(Args... args) {
+			m_gameObjects.push_back(std::make_unique<T>(std::forward<Args>(args)...));
+		};
+		void clearGameObjects() {
+			m_gameObjects.clear();
+		}
+		void eraseIfGameObjects(std::function<bool(const std::unique_ptr<GameObject>&)> _erasor) {
+			m_gameObjects.erase(
+				std::remove_if(m_gameObjects.begin(), m_gameObjects.end(), _erasor),
+				m_gameObjects.end()
+			);
+		}
+
+	private:
 
 		sf::RenderWindow m_window;
 		std::unique_ptr<TileMap> m_tileMap;
-	private:
-	
+
 		sf::Texture m_tileMapTexture;
 		sf::Texture m_thiefTexture;
 		sf::Font m_gameFont;
@@ -25,5 +50,9 @@ class Game {
 		void update(float _deltaTime);
 		void draw();
 
-		MainManager m_gameManager;
+		void updateGameObjects(float _deltaTime);
+		void drawGameObjects();
+		std::vector<std::unique_ptr<GameObject>> m_gameObjects;
+
+		MainManager m_mainManager;
 };

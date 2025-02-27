@@ -13,7 +13,8 @@ void PreparationManager::updateState(float _deltaTime)
 
 void PreparationManager::drawState()
 {
-	m_game->m_window.draw(m_mainText);
+	m_game->getTileMap()->draw(m_game->getGameWindow());
+	m_game->getGameWindow().draw(m_mainText);
 }
 
 void PreparationManager::onEnterState()
@@ -23,7 +24,6 @@ void PreparationManager::onEnterState()
 
 void PreparationManager::onExitState()
 {
-	//TODO :initlevel
 	return;
 }
 

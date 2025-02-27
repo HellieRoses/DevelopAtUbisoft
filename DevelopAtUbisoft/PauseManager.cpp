@@ -13,7 +13,7 @@ void PauseManager::updateState(float _deltaTime)
 
 void PauseManager::drawState()
 {
-	m_game->m_window.draw(m_mainText);
+	m_game->getGameWindow().draw(m_mainText);
 }
 
 void PauseManager::onEnterState()

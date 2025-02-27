@@ -6,7 +6,7 @@ GameManager::GameManager(Game* _game)
 	: m_game(_game)
 	, m_player()
 {
-	m_nbThiefsMax = 5;
+	m_nbThiefsMax = 10;
 	m_nbCurrentThief = 0;
 	m_moneyOut = 0.f;
 }
@@ -14,18 +14,11 @@ GameManager::GameManager(Game* _game)
 void GameManager::updateState(float _deltaTime)
 {
 	updateUIElements();
-
-	m_gameObjects.erase(
-		std::remove_if(
-			m_gameObjects.begin(), m_gameObjects.end(),
-			[this](const std::unique_ptr<GameObject>& _go) {
-				if (const auto* t = dynamic_cast<Thief*>(_go.get()))
-					return isThiefOut(*t);
-				return false;
-			}),
-		m_gameObjects.end()
-	);
-
+	m_game->eraseIfGameObjects([this](const std::unique_ptr<GameObject>& _go) {
+		if (const auto* t = dynamic_cast<Thief*>(_go.get()))
+			return isThiefOut(*t);
+		return false;
+		});
 
 	if (m_nbCurrentThief <= m_nbThiefsMax && !hasThiefInTile(TileMap::TILE_START_THIEF))
 	{
@@ -33,15 +26,13 @@ void GameManager::updateState(float _deltaTime)
 	}
 
 
-	updateGameObjects(_deltaTime);
 
 	drawState();
 }
 
 void GameManager::drawState()
 {
-	m_game->m_tileMap->draw(m_game->m_window);
-	drawGameObjects();
+	m_game->getTileMap()->draw(m_game->getGameWindow());
 	drawUIElements();
 }
 
@@ -53,28 +44,22 @@ void GameManager::onExitState()
 {
 }
 
-void GameManager::drawGameObjects()
+
+
+uint GameManager::computeNumberThief() const
 {
-	for (const auto& gameObject : m_gameObjects)
-	{
-		gameObject->draw(m_game->m_window);
-	}
-
-}
-
-void GameManager::updateGameObjects(float _deltaTime)
-{
-
-	for (auto& gameObject : m_gameObjects)
-	{
-		gameObject->update(_deltaTime);
-	}
+	uint nbThief = 0;
+	m_game->visit<Thief>([&nbThief](Thief& _thief) {
+		nbThief++;
+		return true;
+		});
+	return nbThief;
 }
 
 void GameManager::drawUIElements()
 {
-	m_game->m_window.draw(m_playerMoneyText);
-	m_game->m_window.draw(m_moneyOutText);
+	m_game->getGameWindow().draw(m_playerMoneyText);
+	m_game->getGameWindow().draw(m_moneyOutText);
 }
 
 
@@ -105,7 +90,7 @@ bool GameManager::isThiefOut(const Thief& _thief)
 
 void GameManager::shotThief(sf::Vector2i _mousePos)
 {
-	visit<Thief>([this, _mousePos](Thief& _thief) {
+	m_game->visit<Thief>([this, _mousePos](Thief& _thief) {
 		sf::FloatRect rect = _thief.getSprite().getLocalBounds();
 		sf::Vector2f spritePos = _thief.getSpritePos();
 		sf::Vector2f rectSize = rect.getSize() * TileMap::TILE_SCALE;
@@ -119,7 +104,7 @@ void GameManager::shotThief(sf::Vector2i _mousePos)
 			return false;
 		}
 		return true;
-		});
+	});
 
 }
 
@@ -133,7 +118,7 @@ void GameManager::resetGame()
 {
 	m_player.reset();
 	m_moneyOut = 0.f;
-	m_gameObjects.clear();
+	m_game->clearGameObjects();
 }
 
 void GameManager::initText()
@@ -158,14 +143,13 @@ bool GameManager::playerLoose() const
 
 bool GameManager::hasRoundFinished() const
 {
-	return m_gameObjects.empty() && m_nbCurrentThief > m_nbThiefsMax;
+	return computeNumberThief() == 0 && m_nbCurrentThief > m_nbThiefsMax;
 }
 
 void GameManager::createThief()
 {
-	m_gameObjects.push_back(std::make_unique<Thief>(
-		TileMap::TILE_SIZE * 1.5f, TileMap::TILE_START_THIEF.x, TileMap::TILE_START_THIEF.y)
-	);
+	m_game->addGameObject<Thief>(TileMap::TILE_SIZE * 1.5f, TileMap::TILE_START_THIEF.x, TileMap::TILE_START_THIEF.y);
+
 	m_nbCurrentThief++;
 }
 
@@ -173,7 +157,7 @@ void GameManager::createThief()
 bool GameManager::hasThiefInTile(TileCoord _tileCoord)
 {
 	bool result = false;
-	visit<Thief>([this, _tileCoord, &result](Thief& _thief) {
+	m_game->visit<Thief>([this, _tileCoord, &result](Thief& _thief) {
 		sf::Vector2f targetPosition{ _tileCoord.x * TileMap::TILE_SIZE,_tileCoord.y * TileMap::TILE_SIZE };
 		sf::Vector2f thiefPosition = _thief.getSpritePos();
 		sf::Vector2f direction{ targetPosition - thiefPosition };
@@ -184,7 +168,7 @@ bool GameManager::hasThiefInTile(TileCoord _tileCoord)
 			return false;
 		}
 		return true;
-		});
+	});
 	return result;
 }
 

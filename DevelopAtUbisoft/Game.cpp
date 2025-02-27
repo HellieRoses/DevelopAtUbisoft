@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 Game::Game() 
-	: m_gameManager(this)
+	: m_mainManager(this)
 	, m_window(sf::VideoMode(1600, 900), "")
 {
 	//m_windowName = _windowName; 
@@ -22,7 +22,7 @@ void Game::init(const std::string _windowName) {
 		std::cout << "error on load font" << std::endl;
 	}
 	//tileMap
-	m_gameManager.init();
+	m_mainManager.init();
 	m_tileMap = std::make_unique<TileMap>();
 	m_tileMap->loadTiles();
 }
@@ -45,13 +45,13 @@ void Game::run() {
 				m_window.close();
 			}else if (event.type == sf::Event::MouseButtonPressed)
 			{
-				m_gameManager.onMouseClicked(event);
+				m_mainManager.onMouseClicked(event);
 			}
 			else if (event.type == sf::Event::KeyReleased)
 			{
 				if (event.key.code == sf::Keyboard::P)
 				{
-					m_gameManager.onPausePressed();
+					m_mainManager.onPausePressed();
 				}
 			}
 			
@@ -78,12 +78,43 @@ sf::Font& Game::getFont()
 	return m_gameFont;
 }
 
+sf::RenderWindow& Game::getGameWindow()
+{
+	return m_window;
+}
+
+TileMap* Game::getTileMap()
+{
+	return m_tileMap.get();
+}
+
 void Game::update(float _deltaTime)
 {
-	m_gameManager.update(_deltaTime);
+	m_mainManager.update(_deltaTime);
+	updateGameObjects(_deltaTime);
 }
 
 void Game::draw()
 {
-	m_gameManager.draw();
+	drawGameObjects();
+	m_mainManager.draw();
+}
+
+
+void Game::drawGameObjects()
+{
+	for (const auto& gameObject : m_gameObjects)
+	{
+		gameObject->draw(m_window);
+	}
+
+}
+
+void Game::updateGameObjects(float _deltaTime)
+{
+
+	for (auto& gameObject : m_gameObjects)
+	{
+		gameObject->update(_deltaTime);
+	}
 }

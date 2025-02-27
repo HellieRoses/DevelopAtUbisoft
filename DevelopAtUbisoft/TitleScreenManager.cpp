@@ -12,12 +12,11 @@ void TitleScreenManager::updateState(float _deltaTime)
 
 void TitleScreenManager::drawState()
 {
-	m_game->m_window.draw(m_mainText);
+	m_game->getGameWindow().draw(m_mainText);
 }
 
 void TitleScreenManager::onEnterState()
 {
-	//TODO : resetGame
 	return;
 }
 
