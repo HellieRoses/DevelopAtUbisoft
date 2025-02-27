@@ -7,7 +7,6 @@ TitleScreenManager::TitleScreenManager(Game* _game)
 
 void TitleScreenManager::updateState(float _deltaTime)
 {
-	drawState();
 }
 
 void TitleScreenManager::drawState()

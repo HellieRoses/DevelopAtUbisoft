@@ -1,5 +1,6 @@
 #include "PreparationManager.h"
 #include "Game.h"
+#include "Turret.h"
 
 PreparationManager::PreparationManager(Game* _game)
 	: m_game(_game)
@@ -8,7 +9,6 @@ PreparationManager::PreparationManager(Game* _game)
 
 void PreparationManager::updateState(float _deltaTime)
 {
-	drawState();
 }
 
 void PreparationManager::drawState()
@@ -20,6 +20,7 @@ void PreparationManager::drawState()
 void PreparationManager::onEnterState()
 {
 	m_mainText.setString("PREPARATION : Click to enter game");
+	m_game->addGameObject<Turret>(1, 1);
 }
 
 void PreparationManager::onExitState()

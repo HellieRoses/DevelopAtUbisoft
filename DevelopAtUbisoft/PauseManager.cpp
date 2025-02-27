@@ -8,7 +8,6 @@ PauseManager::PauseManager(Game* _game)
 
 void PauseManager::updateState(float _deltaTime)
 {
-	drawState();
 }
 
 void PauseManager::drawState()

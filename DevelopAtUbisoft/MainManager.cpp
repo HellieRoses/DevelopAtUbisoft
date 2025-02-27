@@ -43,8 +43,10 @@ void MainManager::changeState(GameStateManager* _newState)
 }
 
 void MainManager::draw() {
+
 	m_game->getGameWindow().display();
-	//TODO draw state here
+	m_game->getGameWindow().clear(sf::Color::Black);
+	m_currentStateManager->drawState();
 }
 
 void MainManager::init()
@@ -60,7 +62,6 @@ void MainManager::update(float _deltaTime) {
 	//parcourt liste ennemis + mise à jour
 	//delta time 
 
-	m_game->getGameWindow().clear(sf::Color::Black); //TODO place in draw
 	m_currentStateManager->updateState(_deltaTime);
 
 	if (m_currentStateManager == m_gameManager.get())
@@ -85,7 +86,7 @@ void MainManager::onMouseClicked(sf::Event _event)
 		}
 		else if (m_currentStateManager == m_preparationManager.get())
 		{
-			changeState(m_gameManager.get());
+			changeState(m_gameManager.get()); //TODO change
 		}
 		else if (m_currentStateManager == m_pauseManager.get())
 		{
@@ -93,9 +94,10 @@ void MainManager::onMouseClicked(sf::Event _event)
 		}
 		else
 		{
+			
 			sf::Vector2i localPosition = sf::Mouse::getPosition(m_game->getGameWindow());
-			m_gameManager->shotThief(localPosition);
+			m_gameManager->onMouseClicked(localPosition);
+			
 		}
-
 	}
 }

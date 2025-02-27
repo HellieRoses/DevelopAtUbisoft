@@ -18,6 +18,12 @@ void Game::init(const std::string _windowName) {
 	if (!m_thiefTexture.loadFromFile("assets/sprites/thief.png")) {
 		std::cout << "error on load" << std::endl;
 	}
+	if (!m_baseTurretTexture.loadFromFile("assets/sprites/base_turret.png")) {
+		std::cout << "error on load" << std::endl;
+	}
+	if (!m_turret1Texture.loadFromFile("assets/sprites/turret_1.png")) {
+		std::cout << "error on load" << std::endl;
+	}
 	if (!m_gameFont.loadFromFile("assets/fonts/static/SpaceGrotesk-Bold.ttf")) {
 		std::cout << "error on load font" << std::endl;
 	}
@@ -71,6 +77,16 @@ sf::Texture& Game::getTexture()
 sf::Texture& Game::getThiefTexture()
 {
 	return m_thiefTexture;
+}
+
+sf::Texture& Game::getBaseTurretTexture()
+{
+	return m_baseTurretTexture;
+}
+
+sf::Texture& Game::getTurret1Texture()
+{
+	return m_turret1Texture;
 }
 
 sf::Font& Game::getFont()

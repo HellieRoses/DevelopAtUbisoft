@@ -25,9 +25,6 @@ void GameManager::updateState(float _deltaTime)
 		createThief();
 	}
 
-
-
-	drawState();
 }
 
 void GameManager::drawState()
@@ -42,6 +39,11 @@ void GameManager::onEnterState()
 
 void GameManager::onExitState()
 {
+}
+
+void GameManager::onMouseClicked(sf::Vector2i _mousePos)
+{
+	shotThief(_mousePos);
 }
 
 

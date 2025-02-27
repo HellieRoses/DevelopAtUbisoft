@@ -7,10 +7,8 @@
 class Thief:public GameObject
 {
 	public:
-		Thief();
 		Thief(const float speed, const uint _xPosition, const uint _yPosition);
-		void update(float _deltaTime) override;
-		void draw(sf::RenderWindow& _window) override;
+		
 		void getShot();
 		sf::Sprite& getSprite() { return m_sprite; };
 		const sf::Sprite& getSprite() const { return m_sprite; };
@@ -20,6 +18,9 @@ class Thief:public GameObject
 		bool isDead() const {	return m_pv <= 0;}
 		float getMoneyStolen() const { return m_moneyStolen; };
 	private:
+		void update(float _deltaTime) override;
+		void draw(sf::RenderWindow& _window) override;
+
 		sf::Sprite m_sprite;
 		uint m_tilePosX;
 		uint m_tilePosY;

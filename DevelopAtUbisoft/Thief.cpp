@@ -3,11 +3,7 @@
 #include "Game.h"
 #include <iostream>
 #include "MathUtils.h"
-Thief::Thief()
-	: m_sprite()
-{
 
-}
 
 Thief::Thief(const float speed, const uint _xPosition, const uint _yPosition)
 	: m_speed(speed)

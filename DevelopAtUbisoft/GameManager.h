@@ -9,10 +9,11 @@ class GameManager :   public GameStateManager
 {
 public:
 		GameManager(Game* _game);
-		void updateState(float _deltaTime);
-		void drawState();
-		void onEnterState();
-		void onExitState();
+		void updateState(float _deltaTime) override;
+		void drawState() override;
+		void onEnterState() override;
+		void onExitState() override;
+		void onMouseClicked(sf::Vector2i _mousePos);
 
 		void shotThief(sf::Vector2i _mousePos);
 		void initLevel();
