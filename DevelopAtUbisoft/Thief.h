@@ -10,10 +10,12 @@ class Thief:public GameObject
 		Thief(const float speed, const uint _xPosition, const uint _yPosition);
 		
 		void getShot();
+		void getShotByMissile();
 		sf::Sprite& getSprite() { return m_sprite; };
 		const sf::Sprite& getSprite() const { return m_sprite; };
 		sf::Vector2u getTilePos() const { return {m_tilePosY, m_tilePosX}; }
 		sf::Vector2f getSpritePos() const { return m_sprite.getPosition(); }
+
 		int getPV() const { return m_pv; }
 		bool isDead() const {	return m_pv <= 0;}
 		float getMoneyStolen() const { return m_moneyStolen; };

@@ -28,18 +28,21 @@ public:
 
 		void drawUIElements();
 		void updateUIElements();
-
-		bool isThiefOut(const Thief& _thief);
-		void createThief();
-		bool hasThiefInTile(TileCoord _tileCoord);
 		void setPlayerMoneyText();
 		void setMoneyOutText();
+
+		bool isThiefOut(Thief& _thief);
+		void createThief();
+		bool hasThiefInTile(TileCoord _tileCoord);
+
+		void enableTurrets();
+		void disableTurrets();
 
 		
 		uint m_nbThiefsMax;
 		uint m_nbCurrentThief;
 
-		Player m_player;
+		
 		float m_moneyOut;
 
 		sf::Text m_playerMoneyText;

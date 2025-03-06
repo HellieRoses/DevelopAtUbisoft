@@ -13,6 +13,7 @@ Thief::Thief(const float speed, const uint _xPosition, const uint _yPosition)
 	m_pv = 5;
 	m_sprite = sf::Sprite(Game::get().getThiefTexture(), sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(16,16)));
 	m_sprite.setPosition(m_tilePosX *TileMap::TILE_SIZE, m_tilePosY * TileMap::TILE_SIZE);
+	m_sprite.setOrigin(8.f, 8.f);
 	m_moneyStolen = 10.f;
 }
 
@@ -57,6 +58,17 @@ void Thief::draw(sf::RenderWindow& _window)
 
 void Thief::getShot()
 {
-	m_pv -= 2;
+	m_pv -= 3;
+	if (m_pv <= 0) {
+		setWantDestroy();
+	}
+}
+
+void Thief::getShotByMissile()
+{
+	m_pv -= m_pv;
+	if (m_pv <= 0) {
+		setWantDestroy();
+	}
 }
 

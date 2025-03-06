@@ -1,4 +1,5 @@
 #include "PreparationManager.h"
+#include <iostream>
 #include "Game.h"
 #include "Turret.h"
 
@@ -20,7 +21,7 @@ void PreparationManager::drawState()
 void PreparationManager::onEnterState()
 {
 	m_mainText.setString("PREPARATION : Click to enter game");
-	m_game->addGameObject<Turret>(1, 1);
+	
 }
 
 void PreparationManager::onExitState()
@@ -34,4 +35,23 @@ void PreparationManager::initText()
 	m_mainText.setFillColor(sf::Color::Blue);
 	m_mainText.setCharacterSize(36);
 	m_mainText.setPosition(0, 450);
+}
+
+void PreparationManager::onMouseClicked(sf::Vector2i _mousePos)
+{
+	placeTurret(_mousePos);
+}
+
+void PreparationManager::placeTurret(sf::Vector2i _mousePos)
+{
+	Player player = m_game->getPlayer();
+	if (player.getMoney() >= Turret::PRICE) {
+		uint tilePosX = static_cast<int>(_mousePos.x / TileMap::TILE_SIZE);
+		uint tilePosY = static_cast<int>(_mousePos.y / TileMap::TILE_SIZE);
+		if (TileMap::getTileAt(tilePosX, tilePosY) != 1) {
+			m_game->addGameObject<Turret>(tilePosX, tilePosY);
+			m_game->getPlayer().removeMoney(Turret::PRICE);
+		}
+	}
+	
 }

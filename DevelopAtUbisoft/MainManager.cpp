@@ -86,7 +86,7 @@ void MainManager::onMouseClicked(sf::Event _event)
 		}
 		else if (m_currentStateManager == m_preparationManager.get())
 		{
-			changeState(m_gameManager.get()); //TODO change
+			changeState(m_gameManager.get());
 		}
 		else if (m_currentStateManager == m_pauseManager.get())
 		{
@@ -94,10 +94,17 @@ void MainManager::onMouseClicked(sf::Event _event)
 		}
 		else
 		{
-			
 			sf::Vector2i localPosition = sf::Mouse::getPosition(m_game->getGameWindow());
 			m_gameManager->onMouseClicked(localPosition);
 			
+		}
+	}
+	else if (_event.mouseButton.button == sf::Mouse::Right)
+	{
+		if (m_currentStateManager == m_preparationManager.get())
+		{
+			sf::Vector2i localPosition = sf::Mouse::getPosition(m_game->getGameWindow());
+			m_preparationManager->onMouseClicked(localPosition);
 		}
 	}
 }

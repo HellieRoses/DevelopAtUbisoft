@@ -1,10 +1,10 @@
 #include "GameManager.h"
 #include "TileMap.h"
+#include "Turret.h"
 #include "Game.h"
 #include "MathUtils.h"
 GameManager::GameManager(Game* _game)
 	: m_game(_game)
-	, m_player()
 {
 	m_nbThiefsMax = 10;
 	m_nbCurrentThief = 0;
@@ -14,11 +14,13 @@ GameManager::GameManager(Game* _game)
 void GameManager::updateState(float _deltaTime)
 {
 	updateUIElements();
+	m_game->visit<Thief>([this](Thief& _thief) {
+		isThiefOut(_thief);
+		return true;
+	});
 	m_game->eraseIfGameObjects([this](const std::unique_ptr<GameObject>& _go) {
-		if (const auto* t = dynamic_cast<Thief*>(_go.get()))
-			return isThiefOut(*t);
-		return false;
-		});
+		return _go->wantDestroy;
+	});
 
 	if (m_nbCurrentThief <= m_nbThiefsMax && !hasThiefInTile(TileMap::TILE_START_THIEF))
 	{
@@ -35,10 +37,12 @@ void GameManager::drawState()
 
 void GameManager::onEnterState()
 {
+	enableTurrets();
 }
 
 void GameManager::onExitState()
 {
+	disableTurrets();
 }
 
 void GameManager::onMouseClicked(sf::Vector2i _mousePos)
@@ -71,20 +75,21 @@ void GameManager::updateUIElements()
 	setMoneyOutText();
 }
 
-bool GameManager::isThiefOut(const Thief& _thief)
+bool GameManager::isThiefOut(Thief& _thief)
 {
 	if (_thief.isDead() || _thief.getTilePos() == TileMap::TILE_END_THIEF)
 	{
 		float moneyOut = _thief.getMoneyStolen();
 		if (!_thief.isDead())
 		{
-			m_player.removeMoney(moneyOut);
+			m_game->getPlayer().removeMoney(moneyOut);
 			m_moneyOut += moneyOut;
 		}
 		else
 		{
-			m_player.addMoney(moneyOut);
+			m_game->getPlayer().addMoney(moneyOut);
 		}
+		_thief.setWantDestroy();
 		return true;
 	}
 	return false;
@@ -118,7 +123,7 @@ void GameManager::initLevel()
 
 void GameManager::resetGame()
 {
-	m_player.reset();
+	m_game->getPlayer().reset();
 	m_moneyOut = 0.f;
 	m_game->clearGameObjects();
 }
@@ -174,9 +179,25 @@ bool GameManager::hasThiefInTile(TileCoord _tileCoord)
 	return result;
 }
 
+void GameManager::enableTurrets()
+{
+	m_game->visit<Turret>([](Turret& _turret) {
+		_turret.enableTurret();
+		return true;
+	});
+}
+
+void GameManager::disableTurrets()
+{
+	m_game->visit<Turret>([](Turret& _turret) {
+		_turret.disableTurret();
+		return true;
+	});
+}
+
 void GameManager::setPlayerMoneyText()
 {
-	m_playerMoneyText.setString("Money player: " + std::to_string(m_player.getMoney()) + "$");
+	m_playerMoneyText.setString("Money player: " + std::to_string(m_game->getPlayer().getMoney()) + "$");
 }
 
 

@@ -11,7 +11,9 @@ class PreparationManager : public GameStateManager
 		void onEnterState() override;
 		void onExitState() override;
 		void initText();
+		void onMouseClicked(sf::Vector2i _mousePos);
 	private:
+		void placeTurret(sf::Vector2i _mousePos);
 		sf::Text m_mainText;
 		Game* m_game;
 };

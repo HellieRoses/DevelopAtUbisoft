@@ -146,6 +146,7 @@
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="Missile.cpp" />
     <ClCompile Include="PauseManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PreparationManager.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="Missile.h" />
     <ClInclude Include="PauseManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PreparationManager.h" />

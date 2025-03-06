@@ -1,5 +1,6 @@
 #include "MathUtils.h"
 #include  <math.h> 
+#include <iostream>
 namespace math
 {
 	float norm(sf::Vector2f _vec)
@@ -13,5 +14,12 @@ namespace math
 		if (normVec == 0.f)
 			return {};
 		return _vec / normVec;
+	}
+
+	float vectorToAngle(sf::Vector2f _vec)
+	{
+		float angle = atan2(_vec.y, _vec.x);
+		float degree = angle * math::RAD_TO_DEG;
+		return degree;
 	}
 }

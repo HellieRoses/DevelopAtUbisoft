@@ -5,6 +5,7 @@
 Game::Game() 
 	: m_mainManager(this)
 	, m_window(sf::VideoMode(1600, 900), "")
+	, m_player()
 {
 	//m_windowName = _windowName; 
 	m_window.setFramerateLimit(60);
@@ -12,7 +13,7 @@ Game::Game()
 
 void Game::init(const std::string _windowName) {
 	m_window.setTitle(_windowName);
-	if (!m_tileMapTexture.loadFromFile("assets/sprites/tilemap.png")) {
+	if (!m_tileMapTexture.loadFromFile("assets/sprites/tilemap.png")) { //todo get path file
 		std::cout << "error on load" << std::endl;
 	}
 	if (!m_thiefTexture.loadFromFile("assets/sprites/thief.png")) {
@@ -24,9 +25,13 @@ void Game::init(const std::string _windowName) {
 	if (!m_turret1Texture.loadFromFile("assets/sprites/turret_1.png")) {
 		std::cout << "error on load" << std::endl;
 	}
+	if (!m_missileTexture.loadFromFile("assets/sprites/missile.png")) {
+		std::cout << "error on load font" << std::endl;
+	}
 	if (!m_gameFont.loadFromFile("assets/fonts/static/SpaceGrotesk-Bold.ttf")) {
 		std::cout << "error on load font" << std::endl;
 	}
+
 	//tileMap
 	m_mainManager.init();
 	m_tileMap = std::make_unique<TileMap>();
@@ -89,6 +94,11 @@ sf::Texture& Game::getTurret1Texture()
 	return m_turret1Texture;
 }
 
+sf::Texture& Game::getMissileTexture()
+{
+	return m_missileTexture;
+}
+
 sf::Font& Game::getFont()
 {
 	return m_gameFont;
@@ -128,9 +138,22 @@ void Game::drawGameObjects()
 
 void Game::updateGameObjects(float _deltaTime)
 {
+	if (!m_gameObjectsToAdd.empty())
+	{
+		m_gameObjects.insert(
+			m_gameObjects.end(),
+			std::make_move_iterator( m_gameObjectsToAdd.begin()), 
+			std::make_move_iterator(m_gameObjectsToAdd.end())
+		);
+		m_gameObjectsToAdd.clear();
+	}
 
 	for (auto& gameObject : m_gameObjects)
 	{
 		gameObject->update(_deltaTime);
 	}
+
+	eraseIfGameObjects([](const std::unique_ptr<GameObject>& _go) {
+		return _go->wantDestroy;
+	});
 }
