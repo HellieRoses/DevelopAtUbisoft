@@ -11,10 +11,10 @@ Thief::Thief( const uint _xPosition, const uint _yPosition)
 {
 	m_speed = THIEF_SPEED;
 	m_pv = 5;
-	m_sprite = sf::Sprite(Game::get().getThiefTexture(), sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE)));
+	m_sprite = sf::Sprite(Game::get().getThiefTexture(), sf::IntRect(sf::Vector2i(THIEF_BASE_SPRITE_SIZE *17, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE)));
 	m_sprite.setPosition(m_tilePosX * MINI_TILE_SIZE, m_tilePosY * MINI_TILE_SIZE);
-	m_sprite.setOrigin(MINI_ORIGIN, MINI_ORIGIN);
-	m_sprite.setScale({ THIEF_SCALE,THIEF_SCALE });
+	m_sprite.setOrigin(THIEF_ORIGIN, THIEF_ORIGIN);
+	m_sprite.setScale({ MAX_SCALE,MAX_SCALE });
 	m_moneyStolen = 10.f;
 }
 

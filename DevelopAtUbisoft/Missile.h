@@ -8,6 +8,7 @@ public:
 private:
 	void update(float _deltaTime) override;
 	void draw(sf::RenderWindow& _window) override;
+	void directAndShoot(float _deltaTime, Thief* thief);
 	int m_thiefId;
 	sf::Sprite m_sprite;
 	float m_speed;

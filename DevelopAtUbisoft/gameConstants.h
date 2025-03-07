@@ -12,7 +12,11 @@ static constexpr float MAX_SCALE = MINI_TILE_SIZE / MAX_BASE_TILE_SIZE;
 static constexpr float MAX_TILE_SIZE = MINI_BASE_TILE_SIZE * MAX_SCALE;
 static constexpr float MAX_ORIGIN = MAX_BASE_TILE_SIZE / 2;
 
-static constexpr float THIEF_SCALE = MIN_SCALE / 2;
+static constexpr int THIEF_BASE_SPRITE_SIZE = 32;
+static constexpr float THIEF_SCALE = MINI_TILE_SIZE / THIEF_BASE_SPRITE_SIZE;
+static constexpr float THIEF_SPRITE_SIZE = THIEF_BASE_SPRITE_SIZE * THIEF_SCALE;
+static constexpr float THIEF_ORIGIN = THIEF_BASE_SPRITE_SIZE / 2.f;
+
 static constexpr float THIEF_SPEED = MINI_TILE_SIZE * 1.5f;
 
 static constexpr float MISSILE_SPEED = MINI_TILE_SIZE * 3.f;

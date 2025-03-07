@@ -19,27 +19,37 @@ void Missile::update(float _deltaTime)
 	Thief* thief = Game::get().getGameObjectById<Thief>(m_thiefId);
 	if (thief != nullptr)
 	{
-		const sf::Vector2f& currentPosition = m_sprite.getPosition();
-		const sf::Vector2f& targetPosition = thief->getSpritePos();
-
-		sf::Vector2f direction{ targetPosition - currentPosition };
-		float dist = math::norm(direction);
-		direction = math::normalize(direction);
-		float angle = math::vectorToAngle(direction);
-		m_sprite.setRotation(90.f + angle);
-		m_sprite.setPosition(currentPosition + direction * m_speed * _deltaTime);
-		if (dist < 1.f) {
-			thief->getShotByMissile();
+		directAndShoot(_deltaTime, thief);
+	}
+	else {
+		Thief* thief2 = Game::get().getGameObjectById<Thief>(m_thiefId + 1);
+		if (thief2 != nullptr) {
+			directAndShoot(_deltaTime, thief2);
+		}
+		else {
 			wantDestroy = true;
 		}
 	}
-	else {
-		wantDestroy = true;
-	}
-	
 }
 
 void Missile::draw(sf::RenderWindow& _window)
 {
 	_window.draw(m_sprite);
+}
+
+void Missile::directAndShoot(float _deltaTime, Thief* thief)
+{
+	const sf::Vector2f& currentPosition = m_sprite.getPosition();
+	const sf::Vector2f& targetPosition = thief->getSpritePos();
+
+	sf::Vector2f direction{ targetPosition - currentPosition };
+	float dist = math::norm(direction);
+	direction = math::normalize(direction);
+	float angle = math::vectorToAngle(direction);
+	m_sprite.setRotation(90.f + angle);
+	m_sprite.setPosition(currentPosition + direction * m_speed * _deltaTime);
+	if (dist < 1.f) {
+		thief->getShotByMissile();
+		wantDestroy = true;
+	}
 }
