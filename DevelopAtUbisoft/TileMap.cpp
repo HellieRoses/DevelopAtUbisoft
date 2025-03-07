@@ -28,16 +28,28 @@ TileMap::TileMap()
 
 void TileMap::loadTiles() {
 	//here if is null do: 
-	m_interiorTile = std::make_unique<Tile>("interior", false, sf::Vector2i(30* MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
-	m_interiorWalkableTile = std::make_unique<Tile>("interiorW", true, sf::Vector2i(30 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
-	m_BUTile = std::make_unique<Tile>("borderup", false, sf::Vector2i(26 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
-	m_BDTile = std::make_unique<Tile>("borderdown", false, sf::Vector2i(26 * MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE), TILE_INT_RECT);
-	m_BLTile = std::make_unique<Tile>("borderleft", false, sf::Vector2i(27 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
-	m_BRTile = std::make_unique<Tile>("borderright", false, sf::Vector2i(27 * MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE), TILE_INT_RECT);
-	m_CULTile = std::make_unique<Tile>("cornerupleft", false, sf::Vector2i(24 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
-	m_CURile = std::make_unique<Tile>("cornerupright", false, sf::Vector2i(25 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
-	m_CDLile = std::make_unique<Tile>("cornerdownleft", false, sf::Vector2i(24 * MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE), TILE_INT_RECT);
-	m_CDRile = std::make_unique<Tile>("cornerdownright", false, sf::Vector2i(25 * MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE), TILE_INT_RECT);
+	//m_interiorTile = std::make_unique<Tile>("interior", false, sf::Vector2i(30* MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
+	//m_interiorWalkableTile = std::make_unique<Tile>("interiorW", true, sf::Vector2i(30 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
+	//m_BUTile = std::make_unique<Tile>("borderup", false, sf::Vector2i(26 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
+	//m_BDTile = std::make_unique<Tile>("borderdown", false, sf::Vector2i(26 * MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE), TILE_INT_RECT);
+	//m_BLTile = std::make_unique<Tile>("borderleft", false, sf::Vector2i(27 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
+	//m_BRTile = std::make_unique<Tile>("borderright", false, sf::Vector2i(27 * MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE), TILE_INT_RECT);
+	//m_CULTile = std::make_unique<Tile>("cornerupleft", false, sf::Vector2i(24 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
+	//m_CURile = std::make_unique<Tile>("cornerupright", false, sf::Vector2i(25 * MINI_BASE_TILE_SIZE, 0), TILE_INT_RECT);
+	//m_CDLile = std::make_unique<Tile>("cornerdownleft", false, sf::Vector2i(24 * MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE), TILE_INT_RECT);
+	//m_CDRile = std::make_unique<Tile>("cornerdownright", false, sf::Vector2i(25 * MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE), TILE_INT_RECT);
+
+	m_interiorTile = std::make_unique<Tile>("interior", false, sf::Vector2i(0, 0), TILE_INT_RECT);
+	m_interiorWalkableTile = std::make_unique<Tile>("interiorW", true, sf::Vector2i(0, 0), TILE_INT_RECT);
+	m_BUTile = std::make_unique<Tile>("borderup", false, sf::Vector2i(0, 0), TILE_INT_RECT);
+	m_BDTile = std::make_unique<Tile>("borderdown", false, sf::Vector2i(0, 0), TILE_INT_RECT);
+	m_BLTile = std::make_unique<Tile>("borderleft", false, sf::Vector2i(0, 0), TILE_INT_RECT);
+	m_BRTile = std::make_unique<Tile>("borderright", false, sf::Vector2i(0, 0), TILE_INT_RECT);
+	m_CULTile = std::make_unique<Tile>("cornerupleft", false, sf::Vector2i( 0, 0), TILE_INT_RECT);
+	m_CURile = std::make_unique<Tile>("cornerupright", false, sf::Vector2i( 0, 0), TILE_INT_RECT);
+	m_CDLile = std::make_unique<Tile>("cornerdownleft", false, sf::Vector2i(0, 0), TILE_INT_RECT);
+	m_CDRile = std::make_unique<Tile>("cornerdownright", false, sf::Vector2i(0, 0), TILE_INT_RECT);
+
 
 }
 

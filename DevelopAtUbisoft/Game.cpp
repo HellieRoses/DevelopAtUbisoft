@@ -16,6 +16,9 @@ void Game::init(const std::string _windowName) {
 	if (!m_tileMapTexture.loadFromFile(getTexturePath("tilemap.png"))) {
 		std::cout << "error on load" << std::endl;
 	}
+	if (!m_tileTexture.loadFromFile(getTexturePath("tile-2.png"))) {
+		std::cout << "error on load" << std::endl;
+	}
 	if (!m_thiefTexture.loadFromFile(getTexturePath("thief.png"))) {
 		std::cout << "error on load" << std::endl;
 	}
@@ -97,6 +100,11 @@ sf::Texture& Game::getTurret1Texture()
 sf::Texture& Game::getMissileTexture()
 {
 	return m_missileTexture;
+}
+
+sf::Texture& Game::getTileTexture()
+{
+	return m_tileTexture;
 }
 
 sf::Font& Game::getFont()

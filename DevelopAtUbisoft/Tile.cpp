@@ -14,7 +14,7 @@ Tile::Tile(const std::string _name, const bool _walkable, const sf::Vector2i _po
 {	
 	m_xSize = _size.x* MIN_SCALE; 
 	m_ySize = _size.y* MIN_SCALE;
-	m_tile = sf::Sprite(Game::get().getTexture(),sf::IntRect(_position,_size));
+	m_tile = sf::Sprite(Game::get().getTileTexture(),sf::IntRect(_position,_size));
 	m_tile.setScale(sf::Vector2f(MIN_SCALE, MIN_SCALE));
 }
 

@@ -17,6 +17,7 @@ class Game {
 		sf::Texture& getBaseTurretTexture();
 		sf::Texture& getTurret1Texture();
 		sf::Texture& getMissileTexture();
+		sf::Texture& getTileTexture();
 
 		sf::Font& getFont();
 		sf::RenderWindow& getGameWindow();
@@ -81,6 +82,7 @@ class Game {
 		std::unique_ptr<TileMap> m_tileMap;
 
 		sf::Texture m_tileMapTexture;
+		sf::Texture m_tileTexture;
 		sf::Texture m_thiefTexture;
 		sf::Texture m_baseTurretTexture;
 		sf::Texture m_turret1Texture;
