@@ -7,7 +7,7 @@
 class Thief:public GameObject
 {
 	public:
-		Thief(const float speed, const uint _xPosition, const uint _yPosition);
+		Thief(const uint _xPosition, const uint _yPosition);
 		
 		void getShot();
 		void getShotByMissile();
@@ -17,7 +17,7 @@ class Thief:public GameObject
 		sf::Vector2f getSpritePos() const { return m_sprite.getPosition(); }
 
 		int getPV() const { return m_pv; }
-		bool isDead() const {	return m_pv <= 0;}
+		bool isDead();
 		float getMoneyStolen() const { return m_moneyStolen; };
 	private:
 		void update(float _deltaTime) override;

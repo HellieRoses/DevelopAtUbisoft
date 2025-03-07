@@ -1,4 +1,5 @@
 #include <SFML/Graphics/Text.hpp>
+#include "gameConstants.h"
 class Player
 {
 	public :

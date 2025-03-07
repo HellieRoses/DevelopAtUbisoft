@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="core.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="gameConstants.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="MainManager.h" />
     <ClInclude Include="GameObject.h" />

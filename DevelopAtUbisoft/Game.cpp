@@ -13,19 +13,19 @@ Game::Game()
 
 void Game::init(const std::string _windowName) {
 	m_window.setTitle(_windowName);
-	if (!m_tileMapTexture.loadFromFile("assets/sprites/tilemap.png")) { //todo get path file
+	if (!m_tileMapTexture.loadFromFile(getTexturePath("tilemap.png"))) {
 		std::cout << "error on load" << std::endl;
 	}
-	if (!m_thiefTexture.loadFromFile("assets/sprites/thief.png")) {
+	if (!m_thiefTexture.loadFromFile(getTexturePath("thief.png"))) {
 		std::cout << "error on load" << std::endl;
 	}
-	if (!m_baseTurretTexture.loadFromFile("assets/sprites/base_turret.png")) {
+	if (!m_baseTurretTexture.loadFromFile(getTexturePath("base_turret.png"))) {
 		std::cout << "error on load" << std::endl;
 	}
-	if (!m_turret1Texture.loadFromFile("assets/sprites/turret_1.png")) {
+	if (!m_turret1Texture.loadFromFile(getTexturePath("turret_1.png"))) {
 		std::cout << "error on load" << std::endl;
 	}
-	if (!m_missileTexture.loadFromFile("assets/sprites/missile.png")) {
+	if (!m_missileTexture.loadFromFile(getTexturePath("missile.png"))) {
 		std::cout << "error on load font" << std::endl;
 	}
 	if (!m_gameFont.loadFromFile("assets/fonts/static/SpaceGrotesk-Bold.ttf")) {
@@ -112,6 +112,11 @@ sf::RenderWindow& Game::getGameWindow()
 TileMap* Game::getTileMap()
 {
 	return m_tileMap.get();
+}
+
+std::string Game::getTexturePath(const std::string _fileName)
+{
+	return SPRITES_PATH + _fileName;
 }
 
 void Game::update(float _deltaTime)

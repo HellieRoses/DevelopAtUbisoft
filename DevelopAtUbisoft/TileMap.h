@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include "core.h"
+#include "gameConstants.h"
 #define INTERIOR 0
 #define INTERIORW 1
 #define BORDERUP 2
@@ -20,9 +21,7 @@ class TileMap
 		TileMap();
 		void loadTiles();
 		void draw(sf::RenderWindow& _window);
-		static constexpr int TILE_BASE_SIZE = 16;
-		static constexpr float TILE_SCALE = 2.f;
-		static constexpr float TILE_SIZE = TILE_BASE_SIZE*TILE_SCALE;
+		static const sf::Vector2i TILE_INT_RECT;
 		static const TileCoord TILE_START_THIEF;
 		static const TileCoord TILE_END_THIEF;
 		static uint getTileAt(uint x, uint y);

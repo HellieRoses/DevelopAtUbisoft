@@ -5,18 +5,27 @@
 #include "MathUtils.h"
 
 
-Thief::Thief(const float speed, const uint _xPosition, const uint _yPosition)
-	: m_speed(speed)
-	, m_tilePosX(_xPosition)
+Thief::Thief( const uint _xPosition, const uint _yPosition)
+	: m_tilePosX(_xPosition)
 	, m_tilePosY(_yPosition)
 {
+	m_speed = THIEF_SPEED;
 	m_pv = 5;
-	m_sprite = sf::Sprite(Game::get().getThiefTexture(), sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(16,16)));
-	m_sprite.setPosition(m_tilePosX *TileMap::TILE_SIZE, m_tilePosY * TileMap::TILE_SIZE);
-	m_sprite.setOrigin(8.f, 8.f);
+	m_sprite = sf::Sprite(Game::get().getThiefTexture(), sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(MINI_BASE_TILE_SIZE, MINI_BASE_TILE_SIZE)));
+	m_sprite.setPosition(m_tilePosX * MINI_TILE_SIZE, m_tilePosY * MINI_TILE_SIZE);
+	m_sprite.setOrigin(MINI_ORIGIN, MINI_ORIGIN);
+	m_sprite.setScale({ THIEF_SCALE,THIEF_SCALE });
 	m_moneyStolen = 10.f;
 }
 
+bool Thief::isDead() 
+{
+	if (m_pv <= 0) {
+		wantDestroy = true;
+		return true;
+	}
+	return false;
+}
 void Thief::update(float _deltaTime)
 {
 	const sf::Vector2f& currentPosition = m_sprite.getPosition();
@@ -35,7 +44,7 @@ void Thief::update(float _deltaTime)
 		return;
 	}
 	
-	sf::Vector2f targetPosition{indexTargetPosX * TileMap::TILE_SIZE, indexTargetPosY * TileMap::TILE_SIZE };
+	sf::Vector2f targetPosition{indexTargetPosX * MINI_TILE_SIZE, indexTargetPosY * MINI_TILE_SIZE };
 	sf::Vector2f direction{ targetPosition - currentPosition };
 	float dist = math::norm(direction);
 	direction = math::normalize(direction);
@@ -59,16 +68,12 @@ void Thief::draw(sf::RenderWindow& _window)
 void Thief::getShot()
 {
 	m_pv -= 3;
-	if (m_pv <= 0) {
-		setWantDestroy();
-	}
+	isDead();
 }
 
 void Thief::getShotByMissile()
 {
 	m_pv -= m_pv;
-	if (m_pv <= 0) {
-		setWantDestroy();
-	}
+	isDead();
 }
 

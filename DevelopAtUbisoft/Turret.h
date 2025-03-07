@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
 #include "core.h"
+#include "gameConstants.h"
 class Thief;
 class Turret :  public GameObject
 {
@@ -17,7 +18,6 @@ class Turret :  public GameObject
 		void update(float _deltaTime) override;
 		void draw(sf::RenderWindow& _window) override;
 		void shoot(Thief& _thiefTargeted);
-		static constexpr float TEXTURE_SIZE = 64.f;
 		sf::Sprite m_topSprite;
 		sf::Sprite m_baseSprite;
 

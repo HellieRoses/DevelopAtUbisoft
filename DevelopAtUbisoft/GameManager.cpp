@@ -3,6 +3,7 @@
 #include "Turret.h"
 #include "Game.h"
 #include "MathUtils.h"
+#include <iostream>
 GameManager::GameManager(Game* _game)
 	: m_game(_game)
 {
@@ -77,16 +78,19 @@ void GameManager::updateUIElements()
 
 bool GameManager::isThiefOut(Thief& _thief)
 {
+	
 	if (_thief.isDead() || _thief.getTilePos() == TileMap::TILE_END_THIEF)
 	{
 		float moneyOut = _thief.getMoneyStolen();
 		if (!_thief.isDead())
 		{
+			std::cout << _thief.getId()+" dead" << std::endl;
 			m_game->getPlayer().removeMoney(moneyOut);
 			m_moneyOut += moneyOut;
 		}
 		else
 		{
+			std::cout << _thief.getId()+ " out" << std::endl;
 			m_game->getPlayer().addMoney(moneyOut);
 		}
 		_thief.setWantDestroy();
@@ -100,7 +104,7 @@ void GameManager::shotThief(sf::Vector2i _mousePos)
 	m_game->visit<Thief>([this, _mousePos](Thief& _thief) {
 		sf::FloatRect rect = _thief.getSprite().getLocalBounds();
 		sf::Vector2f spritePos = _thief.getSpritePos();
-		sf::Vector2f rectSize = rect.getSize() * TileMap::TILE_SCALE;
+		sf::Vector2f rectSize = rect.getSize() * MINI_TILE_SIZE;
 
 		bool isMouseCloseToThiefx = spritePos.x <= _mousePos.x && _mousePos.x <= (spritePos.x + rectSize.x);
 		bool isMouseCloseToThiefy = spritePos.y <= _mousePos.y && _mousePos.y <= (spritePos.y + rectSize.y);
@@ -155,7 +159,7 @@ bool GameManager::hasRoundFinished() const
 
 void GameManager::createThief()
 {
-	m_game->addGameObject<Thief>(TileMap::TILE_SIZE * 1.5f, TileMap::TILE_START_THIEF.x, TileMap::TILE_START_THIEF.y);
+	m_game->addGameObject<Thief>(TileMap::TILE_START_THIEF.x, TileMap::TILE_START_THIEF.y);
 
 	m_nbCurrentThief++;
 }
@@ -165,11 +169,11 @@ bool GameManager::hasThiefInTile(TileCoord _tileCoord)
 {
 	bool result = false;
 	m_game->visit<Thief>([this, _tileCoord, &result](Thief& _thief) {
-		sf::Vector2f targetPosition{ _tileCoord.x * TileMap::TILE_SIZE,_tileCoord.y * TileMap::TILE_SIZE };
+		sf::Vector2f targetPosition{ _tileCoord.x * MINI_TILE_SIZE,_tileCoord.y * MINI_TILE_SIZE };
 		sf::Vector2f thiefPosition = _thief.getSpritePos();
 		sf::Vector2f direction{ targetPosition - thiefPosition };
 		float dist = math::norm(direction);
-		if (dist < TileMap::TILE_SIZE)
+		if (dist < MINI_TILE_SIZE)
 		{
 			result = true;
 			return false;

@@ -1,6 +1,5 @@
 #include "Tile.h"
 #include "Game.h"
-#include "TileMap.h"
 Tile::Tile()
 	: m_name("")
 	, m_walkable(false)
@@ -13,11 +12,10 @@ Tile::Tile(const std::string _name, const bool _walkable, const sf::Vector2i _po
 	: m_name(_name)
 	, m_walkable(_walkable)
 {	
-	m_xSize = _size.x*TileMap::TILE_SCALE; 
-	m_ySize = _size.y* TileMap::TILE_SCALE;
+	m_xSize = _size.x* MIN_SCALE; 
+	m_ySize = _size.y* MIN_SCALE;
 	m_tile = sf::Sprite(Game::get().getTexture(),sf::IntRect(_position,_size));
-	//m_tile.setOrigin(_size.x/2, _size.y/2);
-	m_tile.setScale(sf::Vector2f(TileMap::TILE_SCALE, TileMap::TILE_SCALE));
+	m_tile.setScale(sf::Vector2f(MIN_SCALE, MIN_SCALE));
 }
 
 void Tile::print(sf::RenderWindow& _window,float x, float y) {

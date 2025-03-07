@@ -14,7 +14,6 @@ class Tile
 		int m_xSize;
 		int m_ySize;
 		std::string m_name;
-		//std::string m_src;
 		
 };
 

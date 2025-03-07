@@ -1,17 +1,17 @@
 #include "Missile.h"
 #include "Game.h"
 #include "MathUtils.h"
+#include "gameConstants.h"
 
 Missile::Missile(float _spawnX, float _spawnY, float _angle, Thief* _targetedThief)
 	: m_thiefId(_targetedThief->getId())
 {
 	m_sprite.setTexture(Game::get().getMissileTexture());
-	float scale = TileMap::TILE_SIZE / 64.f;
-	m_sprite.setScale({ scale,scale });
-	m_sprite.setOrigin(32.f, 32.f);
+	m_sprite.setScale({ MAX_SCALE,MAX_SCALE });
+	m_sprite.setOrigin(MAX_ORIGIN, MAX_ORIGIN);
 	m_sprite.setPosition({ _spawnX, _spawnY });
 	m_sprite.setRotation(_angle);
-	m_speed = TileMap::TILE_SIZE * 3.f;
+	m_speed = MISSILE_SPEED;
 }
 
 void Missile::update(float _deltaTime)
@@ -29,7 +29,7 @@ void Missile::update(float _deltaTime)
 		m_sprite.setRotation(90.f + angle);
 		m_sprite.setPosition(currentPosition + direction * m_speed * _deltaTime);
 		if (dist < 1.f) {
-			thief->getShotByMissile(); //todo thief wantedestroy in is thief out
+			thief->getShotByMissile();
 			wantDestroy = true;
 		}
 	}

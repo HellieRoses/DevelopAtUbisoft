@@ -21,7 +21,7 @@ void Player::addMoney(float _moneyToAdd)
 
 void Player::reset()
 {
-	m_money = 200.f;
+	m_money = PLAYER_MONEY;
 }
 
 

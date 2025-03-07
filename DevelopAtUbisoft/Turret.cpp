@@ -1,6 +1,5 @@
 #include "Turret.h"
 #include "Game.h"
-#include "TileMap.h"
 #include "MathUtils.h"
 #include "Thief.h"
 #include "Missile.h"
@@ -9,16 +8,15 @@ Turret::Turret(const uint _xPosition, const uint _yPosition)
 	: m_tilePosX(_xPosition)
 	, m_tilePosY(_yPosition)
 {
-	m_topSprite = sf::Sprite(Game::get().getTurret1Texture(), sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(TEXTURE_SIZE, TEXTURE_SIZE)));
-	m_baseSprite = sf::Sprite(Game::get().getBaseTurretTexture(), sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(TEXTURE_SIZE, TEXTURE_SIZE)));
-	float scale = TileMap::TILE_SIZE / TEXTURE_SIZE;
-	m_topSprite.setScale({scale,scale});
-	m_topSprite.setOrigin(32.f, 32.f);
+	m_topSprite = sf::Sprite(Game::get().getTurret1Texture(), sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(MAX_BASE_TILE_SIZE, MAX_BASE_TILE_SIZE)));
+	m_baseSprite = sf::Sprite(Game::get().getBaseTurretTexture(), sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(MAX_BASE_TILE_SIZE, MAX_BASE_TILE_SIZE)));
+	m_topSprite.setScale({ MAX_SCALE,MAX_SCALE });
+	m_topSprite.setOrigin(MAX_ORIGIN, MAX_ORIGIN);
 	m_topSprite.setRotation(0);
-	m_baseSprite.setScale({ scale,scale });
-	m_baseSprite.setOrigin(32.f, 32.f);
-	float posX = m_tilePosX * TileMap::TILE_SIZE;
-	float posY = m_tilePosY * TileMap::TILE_SIZE;
+	m_baseSprite.setScale({ MAX_SCALE,MAX_SCALE });
+	m_baseSprite.setOrigin(MAX_ORIGIN, MAX_ORIGIN);
+	float posX = m_tilePosX * MINI_TILE_SIZE;
+	float posY = m_tilePosY * MINI_TILE_SIZE;
 	m_topSprite.setPosition(posX,posY);
 	m_baseSprite.setPosition(posX, posY);
 }

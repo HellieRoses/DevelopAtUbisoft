@@ -66,7 +66,7 @@ class Game {
 		}
 
 	private:
-
+		std::string getTexturePath(const std::string _fileName);
 		
 
 		void update(float _deltaTime);
