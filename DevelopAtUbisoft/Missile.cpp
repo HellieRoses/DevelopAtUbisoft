@@ -22,13 +22,7 @@ void Missile::update(float _deltaTime)
 		directAndShoot(_deltaTime, thief);
 	}
 	else {
-		Thief* thief2 = Game::get().getGameObjectById<Thief>(m_thiefId + 1);
-		if (thief2 != nullptr) {
-			directAndShoot(_deltaTime, thief2);
-		}
-		else {
-			wantDestroy = true;
-		}
+		wantDestroy = true;
 	}
 }
 
@@ -46,9 +40,10 @@ void Missile::directAndShoot(float _deltaTime, Thief* thief)
 	float dist = math::norm(direction);
 	direction = math::normalize(direction);
 	float angle = math::vectorToAngle(direction);
+	float distFrame = std::min( m_speed * _deltaTime, dist);
 	m_sprite.setRotation(90.f + angle);
-	m_sprite.setPosition(currentPosition + direction * m_speed * _deltaTime);
-	if (dist < 1.f) {
+	m_sprite.setPosition(currentPosition + direction * distFrame);
+	if (dist < m_sprite.getLocalBounds().getSize().x * 0.25f ) {
 		thief->getShotByMissile();
 		wantDestroy = true;
 	}

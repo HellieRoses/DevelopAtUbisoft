@@ -4,7 +4,7 @@
 #include <cstdlib>
 Game::Game() 
 	: m_mainManager(this)
-	, m_window(sf::VideoMode(1600, 900), "")
+	, m_window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "")
 	, m_player()
 {
 	//m_windowName = _windowName; 
@@ -16,7 +16,7 @@ void Game::init(const std::string _windowName) {
 	if (!m_tileMapTexture.loadFromFile(getTexturePath("tilemap.png"))) {
 		std::cout << "error on load" << std::endl;
 	}
-	if (!m_tileTexture.loadFromFile(getTexturePath("tile-2.png"))) {
+	if (!m_tileTexture.loadFromFile(getTexturePath("tileset.png"))) {
 		std::cout << "error on load" << std::endl;
 	}
 	if (!m_thiefTexture.loadFromFile(getTexturePath("thief.png"))) {
@@ -34,6 +34,27 @@ void Game::init(const std::string _windowName) {
 	if (!m_gameFont.loadFromFile("assets/fonts/static/SpaceGrotesk-Bold.ttf")) {
 		std::cout << "error on load font" << std::endl;
 	}
+
+	m_animationThiefLeft = std::make_unique<Animation>(0.2f, std::vector<sf::IntRect>{
+		sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 17, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+		sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 16, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+		sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 15, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+		sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 14, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+		sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 13, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+		sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 12, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) }
+		}, 
+	&m_thiefTexture,
+		AnimationId::THIEF_LEFT);
+	m_animationThiefUp = std::make_unique<Animation>(0.2f, std::vector<sf::IntRect>{
+		sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 11, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+			sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 10, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+			sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 9, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+			sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 8, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+			sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 7, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) },
+			sf::IntRect{ sf::Vector2i(THIEF_BASE_SPRITE_SIZE * 6, 0), sf::Vector2i(THIEF_BASE_SPRITE_SIZE, MAX_BASE_TILE_SIZE) }
+	},
+		& m_thiefTexture,
+		AnimationId::THIEF_UP);
 
 	//tileMap
 	m_mainManager.init();
@@ -107,6 +128,16 @@ sf::Texture& Game::getTileTexture()
 	return m_tileTexture;
 }
 
+Animation& Game::getLeftThiefAnimation()
+{
+	return *m_animationThiefLeft.get();
+}
+
+Animation& Game::getUpThiefAnimation()
+{
+	return *m_animationThiefUp.get();
+}
+
 sf::Font& Game::getFont()
 {
 	return m_gameFont;
@@ -169,4 +200,5 @@ void Game::updateGameObjects(float _deltaTime)
 	eraseIfGameObjects([](const std::unique_ptr<GameObject>& _go) {
 		return _go->wantDestroy;
 	});
+
 }

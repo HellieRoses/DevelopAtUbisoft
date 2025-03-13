@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MainManager.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="Turret.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="gameConstants.h" />

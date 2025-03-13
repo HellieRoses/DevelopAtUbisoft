@@ -46,11 +46,13 @@ void PreparationManager::placeTurret(sf::Vector2i _mousePos)
 {
 	Player player = m_game->getPlayer();
 	if (player.getMoney() >= Turret::PRICE) {
-		uint tilePosX = static_cast<int>(_mousePos.x / MINI_TILE_SIZE);
-		uint tilePosY = static_cast<int>(_mousePos.y / MINI_TILE_SIZE);
-		if (TileMap::getTileAt(tilePosX, tilePosY) == 0) {
-			m_game->addGameObject<Turret>(tilePosX, tilePosY);
-			m_game->getPlayer().removeMoney(Turret::PRICE);
+		uint tilePosX = static_cast<int>(std::round(_mousePos.x / (MINI_TILE_SIZE)));
+		uint tilePosY = static_cast<int>(std::round(_mousePos.y / (MINI_TILE_SIZE)));
+		if(tilePosX < TILE_X_MAX && tilePosY < TILE_Y_MAX){
+			if (TileMap::getTileAt(tilePosX, tilePosY) == 0) {
+				m_game->addGameObject<Turret>(tilePosX, tilePosY);
+				m_game->getPlayer().removeMoney(Turret::PRICE);
+			}
 		}
 	}
 	

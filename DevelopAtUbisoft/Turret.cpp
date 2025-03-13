@@ -39,6 +39,9 @@ void Turret::update(float _deltaTime)
 	float indexTargetPosY = 0.f;
 	Thief* thiefTargeted = nullptr;
 	Game::get().visit<Thief>([this,&indexTargetPosX, &indexTargetPosY, &thiefTargeted](Thief& _thief) {
+		if (_thief.hasMissile()) {
+			return true;
+		}
 		sf::Vector2f spritePos = _thief.getSpritePos();
 		indexTargetPosX = spritePos.x;
 		indexTargetPosY = spritePos.y;
@@ -71,5 +74,6 @@ void Turret::draw(sf::RenderWindow& _window)
 void Turret::shoot(Thief& _thiefTargeted)
 {
 	const sf::Vector2f& currentPosition = m_baseSprite.getPosition();
-	Game::get().addGameObject<Missile>(currentPosition.x, currentPosition.y, m_topSprite.getRotation(), &_thiefTargeted);
+	Missile& missile = Game::get().addGameObject<Missile>(currentPosition.x, currentPosition.y, m_topSprite.getRotation(), &_thiefTargeted);
+	_thiefTargeted.setIdMissile(missile.getId());
 }

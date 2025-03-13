@@ -2,9 +2,9 @@
 #include "GameStateManager.h"
 #include "Player.h"
 #include "Tile.h"
-#include "Thief.h"
 #include <functional>
 class Game;
+class Thief;
 class GameManager :   public GameStateManager
 {
 public:
@@ -43,7 +43,6 @@ public:
 		uint m_nbCurrentThief;
 
 		
-		float m_moneyOut;
 
 		sf::Text m_playerMoneyText;
 		sf::Text m_moneyOutText;

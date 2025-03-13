@@ -26,7 +26,7 @@ class TileMap
 		static const TileCoord TILE_END_THIEF;
 		static uint getTileAt(uint x, uint y);
 	private :
-		static std::array<std::array<int, 10>, 8> m_map;
+		static std::array<std::array<int, TILE_X_MAX>, TILE_Y_MAX> m_map;
 		std::unique_ptr<Tile> m_interiorTile;
 		std::unique_ptr<Tile> m_interiorWalkableTile;
 		std::unique_ptr<Tile> m_BUTile;

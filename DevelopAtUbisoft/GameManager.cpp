@@ -1,15 +1,15 @@
 #include "GameManager.h"
 #include "TileMap.h"
 #include "Turret.h"
+#include "Thief.h"
 #include "Game.h"
 #include "MathUtils.h"
 #include <iostream>
 GameManager::GameManager(Game* _game)
 	: m_game(_game)
 {
-	m_nbThiefsMax = 10;
-	m_nbCurrentThief = 0;
-	m_moneyOut = 0.f;
+	m_nbThiefsMax = NB_THIEFS_MAX;
+	m_nbCurrentThief = NB_THIEFS_CURRENT;
 }
 
 void GameManager::updateState(float _deltaTime)
@@ -19,11 +19,9 @@ void GameManager::updateState(float _deltaTime)
 		isThiefOut(_thief);
 		return true;
 	});
-	m_game->eraseIfGameObjects([this](const std::unique_ptr<GameObject>& _go) {
-		return _go->wantDestroy;
-	});
+	
 
-	if (m_nbCurrentThief <= m_nbThiefsMax && !hasThiefInTile(TileMap::TILE_START_THIEF))
+	if (m_nbCurrentThief < m_nbThiefsMax && !hasThiefInTile(TileMap::TILE_START_THIEF))
 	{
 		createThief();
 	}
@@ -79,20 +77,11 @@ void GameManager::updateUIElements()
 bool GameManager::isThiefOut(Thief& _thief)
 {
 	
-	if (_thief.isDead() || _thief.getTilePos() == TileMap::TILE_END_THIEF)
+	if (_thief.getTilePos() == TileMap::TILE_END_THIEF)
 	{
 		float moneyOut = _thief.getMoneyStolen();
-		if (!_thief.isDead())
-		{
-			std::cout << _thief.getId()+" dead" << std::endl;
-			m_game->getPlayer().removeMoney(moneyOut);
-			m_moneyOut += moneyOut;
-		}
-		else
-		{
-			std::cout << _thief.getId()+ " out" << std::endl;
-			m_game->getPlayer().addMoney(moneyOut);
-		}
+		m_game->getPlayer().removeMoney(moneyOut);
+		m_game->getPlayer().addMoneyOut(moneyOut);
 		_thief.setWantDestroy();
 		return true;
 	}
@@ -104,7 +93,7 @@ void GameManager::shotThief(sf::Vector2i _mousePos)
 	m_game->visit<Thief>([this, _mousePos](Thief& _thief) {
 		sf::FloatRect rect = _thief.getSprite().getLocalBounds();
 		sf::Vector2f spritePos = _thief.getSpritePos();
-		sf::Vector2f rectSize = rect.getSize() * MINI_TILE_SIZE;
+		sf::Vector2f rectSize = rect.getSize();
 
 		bool isMouseCloseToThiefx = spritePos.x <= _mousePos.x && _mousePos.x <= (spritePos.x + rectSize.x);
 		bool isMouseCloseToThiefy = spritePos.y <= _mousePos.y && _mousePos.y <= (spritePos.y + rectSize.y);
@@ -122,13 +111,12 @@ void GameManager::shotThief(sf::Vector2i _mousePos)
 void GameManager::initLevel()
 {
 	m_nbCurrentThief = 0;
-	createThief();
+	//createThief();
 }
 
 void GameManager::resetGame()
 {
 	m_game->getPlayer().reset();
-	m_moneyOut = 0.f;
 	m_game->clearGameObjects();
 }
 
@@ -149,12 +137,12 @@ void GameManager::initText()
 
 bool GameManager::playerLoose() const
 {
-	return m_moneyOut >= 100.f;
+	return m_game->getPlayer().getMoneyOut() >= MONEYOUT_LOOSE;
 }
 
 bool GameManager::hasRoundFinished() const
 {
-	return computeNumberThief() == 0 && m_nbCurrentThief > m_nbThiefsMax;
+	return computeNumberThief() == 0 && m_nbCurrentThief >= m_nbThiefsMax;
 }
 
 void GameManager::createThief()
@@ -207,5 +195,5 @@ void GameManager::setPlayerMoneyText()
 
 void GameManager::setMoneyOutText()
 {
-	m_moneyOutText.setString("Money out :" + std::to_string(m_moneyOut) + "$");
+	m_moneyOutText.setString("Money out :" + std::to_string(m_game->getPlayer().getMoneyOut()) + "$");
 }

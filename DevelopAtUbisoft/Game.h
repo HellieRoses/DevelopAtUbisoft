@@ -4,7 +4,8 @@
 #include <vector>
 #include "TileMap.h"
 #include "MainManager.h"
-#include "Turret.h"
+#include "GameObject.h"
+#include "Animation.h"
 #include "core.h"
 class Game {
 	public:
@@ -18,6 +19,9 @@ class Game {
 		sf::Texture& getTurret1Texture();
 		sf::Texture& getMissileTexture();
 		sf::Texture& getTileTexture();
+
+		Animation& getLeftThiefAnimation();
+		Animation& getUpThiefAnimation();
 
 		sf::Font& getFont();
 		sf::RenderWindow& getGameWindow();
@@ -34,10 +38,11 @@ class Game {
 			}
 		};
 		template<typename T, typename... Args>
-		void addGameObject(Args... args) {
+		T& addGameObject(Args... args) {
 			m_gameObjectsToAdd.push_back(std::make_unique<T>(std::forward<Args>(args)...));
 			m_gameObjectsToAdd.back()->setId(nextGOid);
 			nextGOid++;
+			return static_cast<T&>(*m_gameObjectsToAdd.back());
 		};
 		template<typename T>
 		T* getGameObjectById(int _id) {
@@ -84,6 +89,8 @@ class Game {
 		sf::Texture m_tileMapTexture;
 		sf::Texture m_tileTexture;
 		sf::Texture m_thiefTexture;
+		std::unique_ptr<Animation> m_animationThiefLeft;
+		std::unique_ptr<Animation> m_animationThiefUp;
 		sf::Texture m_baseTurretTexture;
 		sf::Texture m_turret1Texture;
 		sf::Texture m_missileTexture;

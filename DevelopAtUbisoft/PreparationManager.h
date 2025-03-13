@@ -15,6 +15,9 @@ class PreparationManager : public GameStateManager
 	private:
 		void placeTurret(sf::Vector2i _mousePos);
 		sf::Text m_mainText;
+
+		sf::Text m_playerMoneyText;
+		sf::Text m_moneyOutText; //TODO
 		Game* m_game;
 };
 
