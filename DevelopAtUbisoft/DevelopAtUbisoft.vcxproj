@@ -156,6 +156,7 @@
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TitleScreenManager.cpp" />
     <ClCompile Include="Turret.cpp" />
+    <ClCompile Include="Vague.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TitleScreenManager.h" />
     <ClInclude Include="Turret.h" />
+    <ClInclude Include="Vague.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

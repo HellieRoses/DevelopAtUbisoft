@@ -12,8 +12,6 @@ Player::Player()
 void Player::removeMoney(float _stolenMoney)
 {
 	m_money -= _stolenMoney;
-	if (m_money < 0.f)
-		m_money = 0.f;
 }
 
 void Player::addMoney(float _moneyToAdd)

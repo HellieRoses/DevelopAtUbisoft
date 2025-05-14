@@ -8,7 +8,7 @@ class Animation;
 class Thief:public GameObject
 {
 	public:
-		Thief(const uint _xPosition, const uint _yPosition);
+		Thief(const uint _xPosition, const uint _yPosition, const float _moneyStolen, const float _speed);
 		~Thief();
 		void getShot();
 		void getShotByMissile();
@@ -16,7 +16,9 @@ class Thief:public GameObject
 		const sf::Sprite& getSprite() const { return m_sprite; };
 		sf::Vector2u getTilePos() const { return {m_tilePosY, m_tilePosX}; }
 		sf::Vector2f getSpritePos() const { return m_sprite.getPosition(); }
-
+		float getSpeed() const {
+			return m_speed;
+		}
 		int getPV() const { return m_pv; }
 		bool isDead();
 		float getMoneyStolen() const { return m_moneyStolen; };

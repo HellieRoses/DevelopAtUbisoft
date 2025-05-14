@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 
 using uint = unsigned int;
 using TileCoord = sf::Vector2u;

@@ -16,6 +16,14 @@ class MainManager
 		void draw();
 		void onPausePressed();
 		void onMouseClicked(sf::Event _event);
+		void onMouseMoved(sf::Event _event);
+		bool  isPaused() const {
+			return m_currentStateManager == m_pauseManager.get();
+		}
+
+		GameManager& getGameManager() {
+			return *m_gameManager.get();
+		}
 	private:
 		Game* m_game;
 

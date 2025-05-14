@@ -19,9 +19,19 @@ class Game {
 		sf::Texture& getTurret1Texture();
 		sf::Texture& getMissileTexture();
 		sf::Texture& getTileTexture();
+		sf::Texture& getPanelTexture();
+		sf::Texture& getBrownPanelTexture();
+		sf::Texture& getWhitePanelTexture();
+		sf::Texture& getRedPanelTexture();
+		sf::Texture& getBluePanelTexture();
+		sf::Texture& getBackgroundTexture();
 
 		Animation& getLeftThiefAnimation();
 		Animation& getUpThiefAnimation();
+
+		MainManager& getMainManager() {
+			return m_mainManager;
+		}
 
 		sf::Font& getFont();
 		sf::RenderWindow& getGameWindow();
@@ -71,6 +81,10 @@ class Game {
 			return m_player;
 		}
 
+		bool isDrawDebug() {
+			return m_drawDebug;
+		}
+
 	private:
 		std::string getTexturePath(const std::string _fileName);
 		
@@ -94,6 +108,12 @@ class Game {
 		sf::Texture m_baseTurretTexture;
 		sf::Texture m_turret1Texture;
 		sf::Texture m_missileTexture;
+		sf::Texture m_uiPanel;
+		sf::Texture m_brownMiniPanel;
+		sf::Texture m_whiteMiniPanel;
+		sf::Texture m_blueMiniPanel;
+		sf::Texture m_redMiniPanel;
+		sf::Texture m_background;
 		sf::Font m_gameFont;
 
 		MainManager m_mainManager;
@@ -101,4 +121,6 @@ class Game {
 		Player m_player;
 
 		int nextGOid = 0;
+
+		bool m_drawDebug = false;
 };

@@ -22,4 +22,11 @@ namespace math
 		float degree = angle * math::RAD_TO_DEG;
 		return degree;
 	}
+	float randomFloat(float min, float max)
+	{
+		float random = ((float)rand()) / (float)RAND_MAX;
+		float diff = max - min;
+		float r = random * diff;
+		return min + r;
+	}
 }

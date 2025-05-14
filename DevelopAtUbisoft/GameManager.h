@@ -2,6 +2,7 @@
 #include "GameStateManager.h"
 #include "Player.h"
 #include "Tile.h"
+#include "Vague.h"
 #include <functional>
 class Game;
 class Thief;
@@ -16,12 +17,17 @@ public:
 		void onMouseClicked(sf::Vector2i _mousePos);
 
 		void shotThief(sf::Vector2i _mousePos);
+		void onThiefDead(Thief& _thief);
+
 		void initLevel();
 		void resetGame();
 		void initText();
 
 		bool playerLoose() const;
 		bool hasRoundFinished() const;
+
+		bool isGameFinished() const;
+
 	private:
 
 		uint computeNumberThief() const;
@@ -30,6 +36,7 @@ public:
 		void updateUIElements();
 		void setPlayerMoneyText();
 		void setMoneyOutText();
+		void setMainText();
 
 		bool isThiefOut(Thief& _thief);
 		void createThief();
@@ -38,14 +45,30 @@ public:
 		void enableTurrets();
 		void disableTurrets();
 
-		
-		uint m_nbThiefsMax;
-		uint m_nbCurrentThief;
+		void initUIElements();
+		bool playerIsLoosing();
 
+		static std::array<Vague,6> m_vagues;
 		
+		int m_currentNbVague = -1;
+		uint m_currentNbThiefsMax =0;
+		uint m_nbCurrentThief =0;
+		uint m_nbDeadThief = 0;
+		float timeTillNextThief =0.f;
+
+		sf::Sprite m_widePanel;
+		sf::Sprite m_playerMoneyPanel;
+		sf::Sprite m_moneyOutPanel;
+		sf::RectangleShape m_background;
+
+		sf::Text m_titleText;
+		sf::Text m_mainText;
+		sf::Text m_lastText;
 
 		sf::Text m_playerMoneyText;
 		sf::Text m_moneyOutText;
+
+	
 
 		Game* m_game;
 

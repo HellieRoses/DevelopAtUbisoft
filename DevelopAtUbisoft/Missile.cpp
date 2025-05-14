@@ -11,7 +11,7 @@ Missile::Missile(float _spawnX, float _spawnY, float _angle, Thief* _targetedThi
 	m_sprite.setOrigin(MAX_ORIGIN, MAX_ORIGIN);
 	m_sprite.setPosition({ _spawnX, _spawnY });
 	m_sprite.setRotation(_angle);
-	m_speed = MISSILE_SPEED;
+	m_speed = _targetedThief->getSpeed()*1.5f;
 }
 
 void Missile::update(float _deltaTime)
