@@ -1,7 +1,7 @@
---Trailer--
+## Trailer
 https://youtu.be/8M4VYbD1TSA
 
---Architecture du code--
+## Architecture du code
 
 Main : sert à lancer le jeu
 
@@ -27,12 +27,12 @@ MathUtils.h : Fonctions et attributs pour calculs mathématiques
 
 Vague.h : Attributs appartenant à chaque nouvelle vague du jeu
 
---But du jeu--
+## But du jeu
 
 Arrêter les voleurs de la banque avant qu'ils sortent. Pour cela, vous pouvez cliquer dessus ou placer des tourelles pour les stoper. Cela vous permettra de récupérer l'argent volé.
 L'argent sorti est supprimé de votre compte.
 Si trop d'argents sort, vous perdez !
 
---Set up du jeu--
+## Set up du jeu
 
 Pour lancer le jeu, il suffit de lancer le fichier main.cpp ou lancer le fichier x64/Release/DevelopAtUbisoft.exe
